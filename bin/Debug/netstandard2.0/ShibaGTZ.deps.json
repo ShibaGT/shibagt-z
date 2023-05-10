@@ -1020,6 +1020,14 @@
           }
         }
       },
+      "Sirenix.Serialization/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Serialization.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Sirenix.OdinInspector.Attributes/1.0.0.0": {
         "runtime": {
           "Sirenix.OdinInspector.Attributes.dll": {
@@ -1028,11 +1036,19 @@
           }
         }
       },
-      "SteamVR/0.0.0.0": {
+      "Sirenix.Serialization.Config/1.0.0.0": {
         "runtime": {
-          "SteamVR.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
+          "Sirenix.Serialization.Config.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Sirenix.Utilities/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Utilities.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       }
@@ -1613,12 +1629,22 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Sirenix.Serialization/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Sirenix.OdinInspector.Attributes/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "SteamVR/0.0.0.0": {
+    "Sirenix.Serialization.Config/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.Utilities/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

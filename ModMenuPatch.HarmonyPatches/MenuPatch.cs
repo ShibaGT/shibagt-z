@@ -497,7 +497,7 @@ internal class MenuPatch
 
     public static string githubversion = null;
 
-    public static string currentverison = "6.5";
+    public static string currentverison = "6.6";
 
     public static bool lefttriggerpress = false;
 
@@ -1816,15 +1816,15 @@ internal class MenuPatch
 
     public static void crash()
     {
-            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
-            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
-            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
-            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
-            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
-        
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaGameManager.instance.playerVRRigDict.Count, false);
 
-            UnityEngine.Object.Destroy(GorillaTagger.Instance.myVRRig);
-        
+
+        UnityEngine.Object.Destroy(GorillaTagger.Instance.myVRRig);
+
     }
 
     public static void trapallmodders()
@@ -1984,7 +1984,7 @@ internal class MenuPatch
         colorChanger.Start();
     }
 
-    
+
 
     public static void PopBalloon()
     {
@@ -2437,30 +2437,30 @@ internal class MenuPatch
     }
 
     private static void nametags()
-	{
+    {
         {
             foreach (VRRig vrrig in (VRRig[])UnityEngine.Object.FindObjectsOfType(typeof(VRRig)))
             {
-				if (!vrrig.isOfflineVRRig && !vrrig.isMyPlayer && !vrrig.photonView.IsMine)
-				{
-					foreach (Photon.Realtime.Player id in PhotonNetwork.PlayerListOthers)
-					{
-						GameObject gameObject2 = new GameObject();
-						Text text = gameObject2.AddComponent<Text>();
-						text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-						text.text = vrrig.name + "\n" + id.UserId;
-						text.fontSize = 1;
-						text.alignment = TextAnchor.MiddleCenter;
-						text.resizeTextMinSize = 0;
-						RectTransform component = text.GetComponent<RectTransform>();
-						component.localPosition = vrrig.transform.localPosition + new Vector3(0, 6, 0);
-						component.sizeDelta = new Vector3(10, 10, 10);
-						component.position = vrrig.transform.position;
-						component.rotation = vrrig.transform.rotation;
-						text.transform.LookAt(Camera.main.transform);
+                if (!vrrig.isOfflineVRRig && !vrrig.isMyPlayer && !vrrig.photonView.IsMine)
+                {
+                    foreach (Photon.Realtime.Player id in PhotonNetwork.PlayerListOthers)
+                    {
+                        GameObject gameObject2 = new GameObject();
+                        Text text = gameObject2.AddComponent<Text>();
+                        text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+                        text.text = vrrig.name + "\n" + id.UserId;
+                        text.fontSize = 1;
+                        text.alignment = TextAnchor.MiddleCenter;
+                        text.resizeTextMinSize = 0;
+                        RectTransform component = text.GetComponent<RectTransform>();
+                        component.localPosition = vrrig.transform.localPosition + new Vector3(0, 6, 0);
+                        component.sizeDelta = new Vector3(10, 10, 10);
+                        component.position = vrrig.transform.position;
+                        component.rotation = vrrig.transform.rotation;
+                        text.transform.LookAt(Camera.main.transform);
 
                     }
-				}
+                }
             }
         }
     }
@@ -2605,48 +2605,48 @@ internal class MenuPatch
     private static readonly XRNode lNode = XRNode.LeftHand;
 
     private static void ProcessTeleportGun()
-	{
-		bool value = false;
-		bool value2 = false;
-		List<InputDevice> list = new List<InputDevice>();
-		InputDevices.GetDevices(list);
-		InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
-		list[0].TryGetFeatureValue(CommonUsages.triggerButton, out value);
-		list[0].TryGetFeatureValue(CommonUsages.gripButton, out value2);
-		if (value2)
-		{
-			Physics.Raycast(GorillaLocomotion.Player.Instance.rightHandTransform.position - GorillaLocomotion.Player.Instance.rightHandTransform.up, -GorillaLocomotion.Player.Instance.rightHandTransform.up, out var hitInfo);
-			if (pointer == null)
-			{
-				pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-				UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-				UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-				pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-			}
-			pointer.transform.position = hitInfo.point;
-			if (value)
-			{
-				if (!teleportGunAntiRepeat)
-				{
-					GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = true;
-					GorillaLocomotion.Player.Instance.transform.position = hitInfo.point;
-					GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
-					GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = false;
-					teleportGunAntiRepeat = true;
-				}
-			}
-			else
-			{
-				teleportGunAntiRepeat = false;
-			}
-		}
-		else
-		{
-			UnityEngine.Object.Destroy(pointer);
-			pointer = null;
-			teleportGunAntiRepeat = false;
-		}
-	}
+    {
+        bool value = false;
+        bool value2 = false;
+        List<InputDevice> list = new List<InputDevice>();
+        InputDevices.GetDevices(list);
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
+        list[0].TryGetFeatureValue(CommonUsages.triggerButton, out value);
+        list[0].TryGetFeatureValue(CommonUsages.gripButton, out value2);
+        if (value2)
+        {
+            Physics.Raycast(GorillaLocomotion.Player.Instance.rightHandTransform.position - GorillaLocomotion.Player.Instance.rightHandTransform.up, -GorillaLocomotion.Player.Instance.rightHandTransform.up, out var hitInfo);
+            if (pointer == null)
+            {
+                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
+                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
+                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            }
+            pointer.transform.position = hitInfo.point;
+            if (value)
+            {
+                if (!teleportGunAntiRepeat)
+                {
+                    GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = true;
+                    GorillaLocomotion.Player.Instance.transform.position = hitInfo.point;
+                    GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                    GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().isKinematic = false;
+                    teleportGunAntiRepeat = true;
+                }
+            }
+            else
+            {
+                teleportGunAntiRepeat = false;
+            }
+        }
+        else
+        {
+            UnityEngine.Object.Destroy(pointer);
+            pointer = null;
+            teleportGunAntiRepeat = false;
+        }
+    }
 
     private static GradientColorKey[] colorKeys = new GradientColorKey[4];
 
@@ -2882,122 +2882,122 @@ internal class MenuPatch
 
     }
     private static void ProcessPlankPlatformMonke()
+    {
+        colorKeys[0].color = Color.black;
+        colorKeys[0].time = 0f;
+        colorKeys[1].color = Color.white;
+        colorKeys[1].time = 0.3f;
+        colorKeys[2].color = Color.white;
+        colorKeys[2].time = 0.6f;
+        colorKeys[3].color = Color.black;
+        colorKeys[3].time = 1f;
+        if (!once_networking)
         {
-            colorKeys[0].color = Color.black;
-            colorKeys[0].time = 0f;
-            colorKeys[1].color = Color.white;
-            colorKeys[1].time = 0.3f;
-            colorKeys[2].color = Color.white;
-            colorKeys[2].time = 0.6f;
-            colorKeys[3].color = Color.black;
-            colorKeys[3].time = 1f;
-            if (!once_networking)
+            PhotonNetwork.NetworkingClient.EventReceived += PlatformNetwork;
+            once_networking = true;
+        }
+        List<InputDevice> list = new List<InputDevice>();
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
+        list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDown_left);
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
+        list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDown_right);
+        if (gripDown_right)
+        {
+            if (!once_right && jump_right_local == null)
             {
-                PhotonNetwork.NetworkingClient.EventReceived += PlatformNetwork;
-                once_networking = true;
-            }
-            List<InputDevice> list = new List<InputDevice>();
-            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
-            list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDown_left);
-            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
-            list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDown_right);
-            if (gripDown_right)
-            {
-                if (!once_right && jump_right_local == null)
+                jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                jump_right_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+                jump_right_local.transform.localScale = new Vector3(0.017f, 0.28f, 0.9999f);
+                jump_right_local.transform.position = GorillaLocomotion.Player.Instance.rightHandTransform.position;
+                jump_right_local.transform.rotation = GorillaLocomotion.Player.Instance.rightHandTransform.rotation;
+                object[] eventContent = new object[]
                 {
-                    jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    jump_right_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-                    jump_right_local.transform.localScale = new Vector3(0.017f, 0.28f, 0.9999f);
-                    jump_right_local.transform.position = GorillaLocomotion.Player.Instance.rightHandTransform.position;
-                    jump_right_local.transform.rotation = GorillaLocomotion.Player.Instance.rightHandTransform.rotation;
-                    object[] eventContent = new object[]
-                    {
                 new Vector3(0f, -0.0075f, 0f) + GorillaLocomotion.Player.Instance.rightHandTransform.position,
                 GorillaLocomotion.Player.Instance.rightHandTransform.rotation
-                    };
-                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions
-                    {
-                        Receivers = ReceiverGroup.Others
-                    };
-                    PhotonNetwork.RaiseEvent(70, eventContent, raiseEventOptions, SendOptions.SendReliable);
-                    once_right = true;
-                    once_right_false = false;
-                    ColorChanger colorChanger = jump_right_local.AddComponent<ColorChanger>();
-                    colorChanger.colors = new Gradient
-                    {
-                        colorKeys = colorKeys
-                    };
-                    colorChanger.Start();
-                }
-            }
-            else if (!once_right_false && jump_right_local != null)
-            {
-                UnityEngine.Object.Destroy(jump_right_local);
-                jump_right_local = null;
-                once_right = false;
-                once_right_false = true;
-                RaiseEventOptions raiseEventOptions2 = new RaiseEventOptions
+                };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions
                 {
                     Receivers = ReceiverGroup.Others
                 };
-                PhotonNetwork.RaiseEvent(72, null, raiseEventOptions2, SendOptions.SendReliable);
-            }
-            if (gripDown_left)
-            {
-                if (!once_left && jump_left_local == null)
+                PhotonNetwork.RaiseEvent(70, eventContent, raiseEventOptions, SendOptions.SendReliable);
+                once_right = true;
+                once_right_false = false;
+                ColorChanger colorChanger = jump_right_local.AddComponent<ColorChanger>();
+                colorChanger.colors = new Gradient
                 {
-                    jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    jump_left_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-                    jump_left_local.transform.localScale = new Vector3(0.017f, 0.28f, 0.9999f);
-                    jump_left_local.transform.position = GorillaLocomotion.Player.Instance.leftHandTransform.position;
-                    jump_left_local.transform.rotation = GorillaLocomotion.Player.Instance.leftHandTransform.rotation;
-                    object[] eventContent2 = new object[]
-                    {
-                GorillaLocomotion.Player.Instance.leftHandTransform.position,
-                GorillaLocomotion.Player.Instance.leftHandTransform.rotation
-                    };
-                    RaiseEventOptions raiseEventOptions3 = new RaiseEventOptions
-                    {
-                        Receivers = ReceiverGroup.Others
-                    };
-                    PhotonNetwork.RaiseEvent(69, eventContent2, raiseEventOptions3, SendOptions.SendReliable);
-                    once_left = true;
-                    once_left_false = false;
-                    ColorChanger colorChanger2 = jump_left_local.AddComponent<ColorChanger>();
-                    colorChanger2.colors = new Gradient
-                    {
-                        colorKeys = colorKeys
-                    };
-                    colorChanger2.Start();
-                }
-            }
-            else if (!once_left_false && jump_left_local != null)
-            {
-                UnityEngine.Object.Destroy(jump_left_local);
-                jump_left_local = null;
-                once_left = false;
-                once_left_false = true;
-                RaiseEventOptions raiseEventOptions4 = new RaiseEventOptions
-                {
-                    Receivers = ReceiverGroup.Others
+                    colorKeys = colorKeys
                 };
-                PhotonNetwork.RaiseEvent(71, null, raiseEventOptions4, SendOptions.SendReliable);
-            }
-            if (!PhotonNetwork.InRoom)
-            {
-                for (int i = 0; i < jump_right_network.Length; i++)
-                {
-                    UnityEngine.Object.Destroy(jump_right_network[i]);
-                }
-                for (int j = 0; j < jump_left_network.Length; j++)
-                {
-                    UnityEngine.Object.Destroy(jump_left_network[j]);
-                }
+                colorChanger.Start();
             }
         }
+        else if (!once_right_false && jump_right_local != null)
+        {
+            UnityEngine.Object.Destroy(jump_right_local);
+            jump_right_local = null;
+            once_right = false;
+            once_right_false = true;
+            RaiseEventOptions raiseEventOptions2 = new RaiseEventOptions
+            {
+                Receivers = ReceiverGroup.Others
+            };
+            PhotonNetwork.RaiseEvent(72, null, raiseEventOptions2, SendOptions.SendReliable);
+        }
+        if (gripDown_left)
+        {
+            if (!once_left && jump_left_local == null)
+            {
+                jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                jump_left_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+                jump_left_local.transform.localScale = new Vector3(0.017f, 0.28f, 0.9999f);
+                jump_left_local.transform.position = GorillaLocomotion.Player.Instance.leftHandTransform.position;
+                jump_left_local.transform.rotation = GorillaLocomotion.Player.Instance.leftHandTransform.rotation;
+                object[] eventContent2 = new object[]
+                {
+                GorillaLocomotion.Player.Instance.leftHandTransform.position,
+                GorillaLocomotion.Player.Instance.leftHandTransform.rotation
+                };
+                RaiseEventOptions raiseEventOptions3 = new RaiseEventOptions
+                {
+                    Receivers = ReceiverGroup.Others
+                };
+                PhotonNetwork.RaiseEvent(69, eventContent2, raiseEventOptions3, SendOptions.SendReliable);
+                once_left = true;
+                once_left_false = false;
+                ColorChanger colorChanger2 = jump_left_local.AddComponent<ColorChanger>();
+                colorChanger2.colors = new Gradient
+                {
+                    colorKeys = colorKeys
+                };
+                colorChanger2.Start();
+            }
+        }
+        else if (!once_left_false && jump_left_local != null)
+        {
+            UnityEngine.Object.Destroy(jump_left_local);
+            jump_left_local = null;
+            once_left = false;
+            once_left_false = true;
+            RaiseEventOptions raiseEventOptions4 = new RaiseEventOptions
+            {
+                Receivers = ReceiverGroup.Others
+            };
+            PhotonNetwork.RaiseEvent(71, null, raiseEventOptions4, SendOptions.SendReliable);
+        }
+        if (!PhotonNetwork.InRoom)
+        {
+            for (int i = 0; i < jump_right_network.Length; i++)
+            {
+                UnityEngine.Object.Destroy(jump_right_network[i]);
+            }
+            for (int j = 0; j < jump_left_network.Length; j++)
+            {
+                UnityEngine.Object.Destroy(jump_left_network[j]);
+            }
+        }
+    }
 
 
-        private static void ProcessStickyPlatforms()
+    private static void ProcessStickyPlatforms()
     {
         colorKeysPlatformMonke[0].color = Color.red;
         colorKeysPlatformMonke[0].time = 0f;
@@ -3111,49 +3111,49 @@ internal class MenuPatch
     }
 
     private static void PlatformNetwork(EventData eventData)
-	{
-		switch (eventData.Code)
-		{
-		case 69:
-		{
-			object[] array2 = (object[])eventData.CustomData;
-			jump_left_network[eventData.Sender] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			jump_left_network[eventData.Sender].GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-			jump_left_network[eventData.Sender].transform.localScale = scale;
-			jump_left_network[eventData.Sender].transform.position = (Vector3)array2[0];
-			jump_left_network[eventData.Sender].transform.rotation = (Quaternion)array2[1];
-			ColorChanger colorChanger2 = jump_left_network[eventData.Sender].AddComponent<ColorChanger>();
-			Gradient gradient2 = new Gradient();
-			gradient2.colorKeys = colorKeysPlatformMonke;
-			colorChanger2.colors = gradient2;
-			colorChanger2.Start();
-			break;
-		}
-		case 70:
-		{
-			object[] array = (object[])eventData.CustomData;
-			jump_right_network[eventData.Sender] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			jump_right_network[eventData.Sender].GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-			jump_right_network[eventData.Sender].transform.localScale = scale;
-			jump_right_network[eventData.Sender].transform.position = (Vector3)array[0];
-			jump_right_network[eventData.Sender].transform.rotation = (Quaternion)array[1];
-			ColorChanger colorChanger = jump_right_network[eventData.Sender].AddComponent<ColorChanger>();
-			Gradient gradient = new Gradient();
-			gradient.colorKeys = colorKeysPlatformMonke;
-			colorChanger.colors = gradient;
-			colorChanger.Start();
-			break;
-		}
-		case 71:
-			UnityEngine.Object.Destroy(jump_left_network[eventData.Sender]);
-			jump_left_network[eventData.Sender] = null;
-			break;
-		case 72:
-			UnityEngine.Object.Destroy(jump_right_network[eventData.Sender]);
-			jump_right_network[eventData.Sender] = null;
-			break;
-		}
-	}
+    {
+        switch (eventData.Code)
+        {
+            case 69:
+                {
+                    object[] array2 = (object[])eventData.CustomData;
+                    jump_left_network[eventData.Sender] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    jump_left_network[eventData.Sender].GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+                    jump_left_network[eventData.Sender].transform.localScale = scale;
+                    jump_left_network[eventData.Sender].transform.position = (Vector3)array2[0];
+                    jump_left_network[eventData.Sender].transform.rotation = (Quaternion)array2[1];
+                    ColorChanger colorChanger2 = jump_left_network[eventData.Sender].AddComponent<ColorChanger>();
+                    Gradient gradient2 = new Gradient();
+                    gradient2.colorKeys = colorKeysPlatformMonke;
+                    colorChanger2.colors = gradient2;
+                    colorChanger2.Start();
+                    break;
+                }
+            case 70:
+                {
+                    object[] array = (object[])eventData.CustomData;
+                    jump_right_network[eventData.Sender] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    jump_right_network[eventData.Sender].GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+                    jump_right_network[eventData.Sender].transform.localScale = scale;
+                    jump_right_network[eventData.Sender].transform.position = (Vector3)array[0];
+                    jump_right_network[eventData.Sender].transform.rotation = (Quaternion)array[1];
+                    ColorChanger colorChanger = jump_right_network[eventData.Sender].AddComponent<ColorChanger>();
+                    Gradient gradient = new Gradient();
+                    gradient.colorKeys = colorKeysPlatformMonke;
+                    colorChanger.colors = gradient;
+                    colorChanger.Start();
+                    break;
+                }
+            case 71:
+                UnityEngine.Object.Destroy(jump_left_network[eventData.Sender]);
+                jump_left_network[eventData.Sender] = null;
+                break;
+            case 72:
+                UnityEngine.Object.Destroy(jump_right_network[eventData.Sender]);
+                jump_right_network[eventData.Sender] = null;
+                break;
+        }
+    }
 
     private static void AddButton(float offset, string text)
     {
@@ -3190,19 +3190,6 @@ internal class MenuPatch
         gameObject2.transform.parent = canvasObj.transform;
         Text text2 = gameObject2.AddComponent<Text>();
         text2.font = (Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font);
-        if (checkver == false)
-        {
-            WebRequest request = WebRequest.Create("https://pastebin.com/raw/pH6uSMhB");
-            WebResponse response = request.GetResponse();
-            Stream data = response.GetResponseStream();
-            string html = String.Empty;
-            using (StreamReader sr = new StreamReader(data))
-            {
-                html = sr.ReadToEnd();
-            }
-            MenuPatch.custommessage = html;
-            checkver = true;
-        }
         if (githubversion == currentverison && githubversion != null)
         {
             text2.text = text;
@@ -3224,37 +3211,58 @@ internal class MenuPatch
 
     public static bool checkver = false;
 
+    public static void checkverr()
+    {
+        WebRequest request = WebRequest.Create("https://pastebin.com/raw/nd32xHsa");
+        WebResponse response = request.GetResponse();
+        Stream data = response.GetResponseStream();
+        string html = String.Empty;
+        using (StreamReader sr = new StreamReader(data))
+        {
+            html = sr.ReadToEnd();
+        }
+        MenuPatch.githubversion = html;
+        new Thread(checkverr).Abort();
+    }
+
+    public static void checkmes()
+    {
+        WebRequest request = WebRequest.Create("https://pastebin.com/raw/pH6uSMhB");
+        WebResponse response = request.GetResponse();
+        Stream data = response.GetResponseStream();
+        string html = String.Empty;
+        using (StreamReader sr = new StreamReader(data))
+        {
+            html = sr.ReadToEnd();
+        }
+        MenuPatch.custommessage = html;
+        new Thread(checkmes).Abort();
+    }
+
     public static string custommessage;
 
-        public static void Draw()
-	    {
+    public static void Draw()
+    {
         if (checkver == false)
         {
-            WebRequest request = WebRequest.Create("https://pastebin.com/raw/nd32xHsa");
-            WebResponse response = request.GetResponse();
-            Stream data = response.GetResponseStream();
-            string html = String.Empty;
-            using (StreamReader sr = new StreamReader(data))
-            {
-                html = sr.ReadToEnd();
-            }
-            MenuPatch.githubversion = html;
+            new Thread(checkmes).Start();
+            new Thread(checkverr).Start();
         }
         menu = GameObject.CreatePrimitive(PrimitiveType.Cube);
         menu.name = "shibagtrealnoway";
-		UnityEngine.Object.Destroy(menu.GetComponent<Rigidbody>());
-		UnityEngine.Object.Destroy(menu.GetComponent<BoxCollider>());
-		UnityEngine.Object.Destroy(menu.GetComponent<Renderer>());
-		menu.transform.localScale = new Vector3(0.1f, 0.3f, 0.4f);
-		GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        UnityEngine.Object.Destroy(menu.GetComponent<Rigidbody>());
+        UnityEngine.Object.Destroy(menu.GetComponent<BoxCollider>());
+        UnityEngine.Object.Destroy(menu.GetComponent<Renderer>());
+        menu.transform.localScale = new Vector3(0.1f, 0.3f, 0.4f);
+        GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
         gameObject.name = "shibagt-z";
-		UnityEngine.Object.Destroy(gameObject.GetComponent<Rigidbody>());
-		UnityEngine.Object.Destroy(gameObject.GetComponent<BoxCollider>());
-		gameObject.transform.parent = menu.transform;
-		gameObject.transform.rotation = Quaternion.identity;
-		gameObject.transform.localScale = new Vector3(0.1f, 1f, 1f);
-		if (animated)
-		{
+        UnityEngine.Object.Destroy(gameObject.GetComponent<Rigidbody>());
+        UnityEngine.Object.Destroy(gameObject.GetComponent<BoxCollider>());
+        gameObject.transform.parent = menu.transform;
+        gameObject.transform.rotation = Quaternion.identity;
+        gameObject.transform.localScale = new Vector3(0.1f, 1f, 1f);
+        if (animated)
+        {
             GradientColorKey[] array = new GradientColorKey[2];
             array[0].color = firstcolor;
             array[0].time = 0f;
@@ -3268,41 +3276,41 @@ internal class MenuPatch
             colorChanger.colors = gradient;
             colorChanger.Start();
         }
-		else
-		{
-			gameObject.GetComponent<Renderer>().material.SetColor("_Color", maincolor);
-		}
-		gameObject.transform.position = new Vector3(0.05f, 0f, 0f);
-		canvasObj = new GameObject();
-		canvasObj.transform.parent = menu.transform;
+        else
+        {
+            gameObject.GetComponent<Renderer>().material.SetColor("_Color", maincolor);
+        }
+        gameObject.transform.position = new Vector3(0.05f, 0f, 0f);
+        canvasObj = new GameObject();
+        canvasObj.transform.parent = menu.transform;
         canvasObj.name = "shibagtcanvas";
-		Canvas canvas = canvasObj.AddComponent<Canvas>();
-		CanvasScaler canvasScaler = canvasObj.AddComponent<CanvasScaler>();
-		canvasObj.AddComponent<GraphicRaycaster>();
-		canvas.renderMode = RenderMode.WorldSpace;
-		canvasScaler.dynamicPixelsPerUnit = 1000f;
-		GameObject gameObject2 = new GameObject();
-		gameObject2.transform.parent = canvasObj.transform;
-		Text text = gameObject2.AddComponent<Text>();
+        Canvas canvas = canvasObj.AddComponent<Canvas>();
+        CanvasScaler canvasScaler = canvasObj.AddComponent<CanvasScaler>();
+        canvasObj.AddComponent<GraphicRaycaster>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvasScaler.dynamicPixelsPerUnit = 1000f;
+        GameObject gameObject2 = new GameObject();
+        gameObject2.transform.parent = canvasObj.transform;
+        Text text = gameObject2.AddComponent<Text>();
         text.font = (Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font);
         text.fontStyle = FontStyle.Bold;
-        text.text = "ShibaGTs Mod Menu-Z v6.0";
-		text.fontSize = 1;
+        text.text = "ShibaGTs Mod Menu-Z v6.6";
+        text.fontSize = 1;
         text.color = Color.white;
-		text.alignment = TextAnchor.MiddleCenter;
-		text.resizeTextForBestFit = true;
-		text.resizeTextMinSize = 0;
-		RectTransform component = text.GetComponent<RectTransform>();
-		component.localPosition = Vector3.zero;
-		component.sizeDelta = new Vector2(0.28f, 0.05f);
-		component.position = new Vector3(0.06f, 0f, 0.175f);
-		component.rotation = Quaternion.Euler(new Vector3(180f, 90f, 90f));
+        text.alignment = TextAnchor.MiddleCenter;
+        text.resizeTextForBestFit = true;
+        text.resizeTextMinSize = 0;
+        RectTransform component = text.GetComponent<RectTransform>();
+        component.localPosition = Vector3.zero;
+        component.sizeDelta = new Vector2(0.28f, 0.05f);
+        component.position = new Vector3(0.06f, 0f, 0.175f);
+        component.rotation = Quaternion.Euler(new Vector3(180f, 90f, 90f));
         AddPageButtons();
-		string[] array2 = buttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
-		for (int i = 0; i < array2.Length; i++)
-		{
-			AddButton((float)i * 0.13f + 0.26f, array2[i]);
-		}
+        string[] array2 = buttons.Skip(pageNumber * pageSize).Take(pageSize).ToArray();
+        for (int i = 0; i < array2.Length; i++)
+        {
+            AddButton((float)i * 0.13f + 0.26f, array2[i]);
+        }
         Text text2 = new GameObject
         {
             transform =

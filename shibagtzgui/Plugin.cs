@@ -28,8 +28,8 @@ namespace shibagtzgui
         string stringthing;
         bool disconnect;
         bool panic;
+        bool enable = true;
         bool Bubble;
-        bool lowquality;
         public static bool head;
         bool lobbyjoin;
         WebClient webclient;
@@ -71,6 +71,7 @@ namespace shibagtzgui
         {
             GUI.color = Color.white;
             GUI.Box(new Rect(15, 15, 350, 300), "ShibaGT-Z GUI");
+
             GUI.color = Color.black;
             GUI.color = Color.white;
             disconnect = GUI.Button(new Rect(25, 45, 100, 25), "Disconnect");
@@ -143,6 +144,11 @@ namespace shibagtzgui
                         }
                     }
             }
+            enable = GUI.Toggle(new Rect(125, 45, 100, 25), enable, "a button that doesn't do anything :D");
+            if (enabled)
+            {
+
+            }
         }
         public static void headspinny()
         {
@@ -191,7 +197,7 @@ namespace shibagtzgui
 
         void Update()
         {
-            /* Code here runs every frame when the mod is enabled */
+
         }
 
         /* This attribute tells Utilla to call this method when a modded room is joined */
