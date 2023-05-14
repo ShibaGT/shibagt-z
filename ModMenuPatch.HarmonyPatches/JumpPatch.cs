@@ -7,8 +7,6 @@ namespace ModMenuPatch.HarmonyPatches;
 [HarmonyPatch("LateUpdate", MethodType.Normal)]
 internal class JumpPatch
 {
-	public static bool ResetSpeed;
-
 	private static void Prefix()
 	{
 	}

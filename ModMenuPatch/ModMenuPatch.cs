@@ -3,14 +3,12 @@ using System.IO;
 using BepInEx;
 using BepInEx.Configuration;
 using ModMenuPatch.HarmonyPatches;
-using Utilla;
 
 namespace ModMenuPatch;
 
 [Description("HauntedModMenu")]
 [BepInPlugin("org.shibagt.menu.shibagtz", "ShibaGTModMenu-Z", "1.0.0")]
 [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
-[ModdedGamemode]
 public class ModMenuPatch : BaseUnityPlugin
 {
 	public static bool modmenupatch = true;
@@ -41,17 +39,5 @@ public class ModMenuPatch : BaseUnityPlugin
 	private void OnDisable()
 	{
 		ModMenuPatches.RemoveHarmonyPatches();
-	}
-
-	[ModdedGamemodeJoin]
-	private void RoomJoined()
-	{
-		modmenupatch = true;
-	}
-
-	[ModdedGamemodeLeave]
-	private void RoomLeft()
-	{
-		modmenupatch = true;
 	}
 }

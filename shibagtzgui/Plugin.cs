@@ -10,7 +10,8 @@ using System.Net;
 using System.IO;
 using UnityEngine;
 using UnityEngine.XR;
-using Utilla;
+using static ModMenuPatch.HarmonyPatches.MenuPatch;
+using System.Threading;
 
 namespace shibagtzgui
 {
@@ -19,30 +20,28 @@ namespace shibagtzgui
     /// </summary>
 
     /* This attribute tells Utilla to look for [ModdedGameJoin] and [ModdedGameLeave] */
-    [ModdedGamemode]
     [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
-        bool inRoom;
         string stringthing;
         bool disconnect;
         bool panic;
-        bool enable = true;
+        bool onn = true;
+        bool enable;
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
-        WebClient webclient;
+        bool crashall = false;
         bool tagall;
         bool trapall;
+        bool antimodcheck = false;
         bool nameset;
 
         void Start()
         {
             /* A lot of Gorilla Tag systems will not be set up when start is called /*
 			/* Put code in OnGameInitialized to avoid null references */
-
-            Utilla.Events.GameInitialized += OnGameInitialized;
         }
 
         void OnEnable()
@@ -69,67 +68,69 @@ namespace shibagtzgui
 
         void OnGUI()
         {
-            GUI.color = Color.white;
-            GUI.Box(new Rect(15, 15, 350, 300), "ShibaGT-Z GUI");
+            if (onn)
+            {
+                GUI.color = Color.white;
+                GUI.Box(new Rect(15, 15, 350, 300), "ShibaGT-Z GUI");
 
-            GUI.color = Color.black;
-            GUI.color = Color.white;
-            disconnect = GUI.Button(new Rect(25, 45, 100, 25), "Disconnect");
-            if (disconnect)
-            {
-                PhotonNetwork.Disconnect();
-            }
-            stringthing = GUI.TextArea(new Rect(25, 75, 100, 25), stringthing);
-            lobbyjoin = GUI.Button(new Rect(25, 105, 100, 25), "Join Lobby");
-            if (lobbyjoin)
-            {
-                PhotonNetworkController.Instance.AttemptToJoinSpecificRoom(stringthing);
-            }
-            nameset = GUI.Button(new Rect(25, 135, 100, 25), "Set Name");
-            if (nameset)
-            {
-                PhotonNetwork.LocalPlayer.NickName = stringthing;
-                PhotonNetwork.NickName = stringthing;
-                PlayerPrefs.SetString("playerName", stringthing);
-                GorillaComputer.instance.currentName = stringthing;
-                GorillaComputer.instance.offlineVRRigNametagText.text = stringthing;
-                PlayerPrefs.Save();
-            }
-            tagall = GUI.Toggle(new Rect(25, 165, 100, 25), tagall ,"Tag All");
-            if (tagall)
-            {
-                TagAll();
-            }
-            panic = GUI.Toggle(new Rect(25, 195, 100, 25), panic, "have panic attac");
-            if (panic)
-            {
-                System.Random random = new System.Random();
-                if (PhotonNetwork.InRoom)
+                GUI.color = Color.black;
+                GUI.color = Color.white;
+                disconnect = GUI.Button(new Rect(25, 45, 100, 25), "Disconnect");
+                if (disconnect)
                 {
-                    GorillaTagger.Instance.myVRRig.head.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
-                    GorillaTagger.Instance.myVRRig.leftHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
-                    GorillaTagger.Instance.myVRRig.rightHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                    PhotonNetwork.Disconnect();
                 }
-                else
+                stringthing = GUI.TextArea(new Rect(25, 75, 100, 25), stringthing);
+                lobbyjoin = GUI.Button(new Rect(25, 105, 100, 25), "Join Lobby");
+                if (lobbyjoin)
                 {
-                    GorillaTagger.Instance.offlineVRRig.head.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
-                    GorillaTagger.Instance.offlineVRRig.leftHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
-                    GorillaTagger.Instance.offlineVRRig.rightHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                    PhotonNetworkController.Instance.AttemptToJoinSpecificRoom(stringthing);
                 }
-            }
-            head = GUI.Toggle(new Rect(25, 225, 100, 25), head, "head spin");
-            if (head)
-            {
-                headspinny();
-            }
-            trapall = GUI.Toggle(new Rect(25, 255, 100, 25), trapall, "trap all modders");
-            if (trapall)
-            {
-                MenuPatch.trapallmodders();
-            }
-            Bubble = GUI.Toggle(new Rect(25, 285, 100, 25), Bubble, "bubble pop spam");
-            if (Bubble)
-            {
+                nameset = GUI.Button(new Rect(25, 135, 100, 25), "Set Name");
+                if (nameset)
+                {
+                    PhotonNetwork.LocalPlayer.NickName = stringthing;
+                    PhotonNetwork.NickName = stringthing;
+                    PlayerPrefs.SetString("playerName", stringthing);
+                    GorillaComputer.instance.currentName = stringthing;
+                    GorillaComputer.instance.offlineVRRigNametagText.text = stringthing;
+                    PlayerPrefs.Save();
+                }
+                tagall = GUI.Toggle(new Rect(25, 165, 100, 25), tagall, "Tag All");
+                if (tagall)
+                {
+                    TagAll();
+                }
+                panic = GUI.Toggle(new Rect(25, 195, 100, 25), panic, "have panic attac");
+                if (panic)
+                {
+                    System.Random random = new System.Random();
+                    if (PhotonNetwork.InRoom)
+                    {
+                        GorillaTagger.Instance.myVRRig.head.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                        GorillaTagger.Instance.myVRRig.leftHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                        GorillaTagger.Instance.myVRRig.rightHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                    }
+                    else
+                    {
+                        GorillaTagger.Instance.offlineVRRig.head.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                        GorillaTagger.Instance.offlineVRRig.leftHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                        GorillaTagger.Instance.offlineVRRig.rightHand.rigTarget.eulerAngles = new Vector3(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360));
+                    }
+                }
+                head = GUI.Toggle(new Rect(25, 225, 100, 25), head, "head spin");
+                if (head)
+                {
+                    headspinny();
+                }
+                trapall = GUI.Toggle(new Rect(25, 255, 100, 25), trapall, "trap all modders");
+                if (trapall)
+                {
+                    MenuPatch.trapallmodders();
+                }
+                Bubble = GUI.Toggle(new Rect(25, 285, 100, 25), Bubble, "bubble pop spam");
+                if (Bubble)
+                {
                     foreach (Photon.Realtime.Player player2 in PhotonNetwork.PlayerList)
                     {
                         PhotonView photonView = GorillaGameManager.instance.FindVRRigForPlayer(player2);
@@ -143,11 +144,26 @@ namespace shibagtzgui
                             });
                         }
                     }
-            }
-            enable = GUI.Toggle(new Rect(125, 45, 100, 25), enable, "a button that doesn't do anything :D");
-            if (enabled)
-            {
-
+                }
+                enable = GUI.Toggle(new Rect(125, 45, 100, 25), enable, "wasd[C: KMAN]");
+                if (enable)
+                {
+                    wasdd();
+                }
+                crashall = GUI.Toggle(new Rect(125, 75, 100, 25), crashall, "lag all [ud]");
+                if (crashall)
+                {
+                    new Thread(MenuPatch.lagservLUNAR).Start();
+                }
+                else
+                {
+                    new Thread(MenuPatch.lagservLUNAR).Abort();
+                }
+                antimodcheck = GUI.Toggle(new Rect(125, 105, 100, 25), antimodcheck, "anti mod check [ud]");
+                if (antimodcheck)
+                {
+                    
+                }
             }
         }
         public static void headspinny()
@@ -162,7 +178,42 @@ namespace shibagtzgui
             }
         }
 
-        
+        public static void wasdd()
+        {
+            if (UnityInput.Current.GetKey(KeyCode.W))
+            {
+                GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 5;
+            }
+            if (UnityInput.Current.GetKey(KeyCode.S))
+            {
+                GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * -5;
+            }
+            if (UnityInput.Current.GetKey(KeyCode.D))
+            {
+                GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.right * Time.deltaTime * 5;
+            }
+            if (UnityInput.Current.GetKey(KeyCode.A))
+            {
+                GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.right * Time.deltaTime * -5;
+            }
+            if (UnityInput.Current.GetKey(KeyCode.LeftArrow))
+            {
+                GorillaLocomotion.Player.Instance.transform.Rotate(0f, -1f, 0f);
+            }
+            if (UnityInput.Current.GetKey(KeyCode.RightArrow))
+            {
+                GorillaLocomotion.Player.Instance.transform.Rotate(0f, 1f, 0f);
+            }
+            if (UnityInput.Current.GetKey(KeyCode.LeftControl))
+            {
+                GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.up * Time.deltaTime * -5;
+            }
+            if (UnityInput.Current.GetKey(KeyCode.Space))
+            {
+                GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.up * Time.deltaTime * 5;
+            }
+            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
 
         private static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
 
@@ -197,27 +248,11 @@ namespace shibagtzgui
 
         void Update()
         {
-
-        }
-
-        /* This attribute tells Utilla to call this method when a modded room is joined */
-        [ModdedGamemodeJoin]
-        public void OnJoin(string gamemode)
-        {
-            /* Activate your mod here */
-            /* This code will run regardless of if the mod is enabled*/
-
-            inRoom = true;
-        }
-
-        /* This attribute tells Utilla to call this method when a modded room is left */
-        [ModdedGamemodeLeave]
-        public void OnLeave(string gamemode)
-        {
-            /* Deactivate your mod here */
-            /* This code will run regardless of if the mod is enabled*/
-
-            inRoom = false;
+            if (UnityInput.Current.GetKey(KeyCode.F2))
+            {
+                onn = !onn;
+                Thread.Sleep(250);
+            }
         }
     }
 }

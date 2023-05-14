@@ -45,6 +45,11 @@
           "PhotonVoice": "0.0.0.0",
           "PhotonVoice.PUN": "0.0.0.0",
           "PlayFab": "0.0.0.0",
+          "Sirenix.OdinInspector.Attributes": "1.0.0.0",
+          "Sirenix.Serialization.Config": "1.0.0.0",
+          "Sirenix.Serialization": "1.0.0.0",
+          "Sirenix.Utilities": "1.0.0.0",
+          "SteamVR": "0.0.0.0",
           "TechniePhysicsCreator": "0.0.0.0",
           "Unity.Animation.Rigging": "0.0.0.0",
           "Unity.Burst": "0.0.0.0",
@@ -118,7 +123,6 @@
           "UnityEngine.WindModule": "0.0.0.0",
           "UnityEngine.XR.LegacyInputHelpers": "0.0.0.0",
           "UnityEngine.XRModule": "0.0.0.0",
-          "Utilla": "1.0.0.0",
           "Valve.Newtonsoft.Json": "9.0.0.0",
           "websocket-sharp": "1.0.2.59611"
         },
@@ -407,6 +411,46 @@
       "PlayFab/0.0.0.0": {
         "runtime": {
           "PlayFab.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Sirenix.OdinInspector.Attributes/1.0.0.0": {
+        "runtime": {
+          "Sirenix.OdinInspector.Attributes.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Sirenix.Serialization.Config/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Serialization.Config.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Sirenix.Serialization/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Serialization.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Sirenix.Utilities/1.0.0.0": {
+        "runtime": {
+          "Sirenix.Utilities.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SteamVR/0.0.0.0": {
+        "runtime": {
+          "SteamVR.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -996,14 +1040,6 @@
           }
         }
       },
-      "Utilla/1.0.0.0": {
-        "runtime": {
-          "Utilla.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
       "Valve.Newtonsoft.Json/9.0.0.0": {
         "runtime": {
           "Valve.Newtonsoft.Json.dll": {
@@ -1017,38 +1053,6 @@
           "websocket-sharp.dll": {
             "assemblyVersion": "1.0.2.59611",
             "fileVersion": "1.0.2.59611"
-          }
-        }
-      },
-      "Sirenix.Serialization/1.0.0.0": {
-        "runtime": {
-          "Sirenix.Serialization.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Sirenix.OdinInspector.Attributes/1.0.0.0": {
-        "runtime": {
-          "Sirenix.OdinInspector.Attributes.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Sirenix.Serialization.Config/1.0.0.0": {
-        "runtime": {
-          "Sirenix.Serialization.Config.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Sirenix.Utilities/1.0.0.0": {
-        "runtime": {
-          "Sirenix.Utilities.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
           }
         }
       }
@@ -1245,6 +1249,31 @@
       "sha512": ""
     },
     "PlayFab/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.OdinInspector.Attributes/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.Serialization.Config/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.Serialization/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sirenix.Utilities/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SteamVR/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1614,37 +1643,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Utilla/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "Valve.Newtonsoft.Json/9.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "websocket-sharp/1.0.2.59611": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.Serialization/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.OdinInspector.Attributes/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.Serialization.Config/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Sirenix.Utilities/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

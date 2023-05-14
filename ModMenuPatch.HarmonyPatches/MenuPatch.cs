@@ -29,6 +29,10 @@ using PlayFab.ClientModels;
 using UnityEngine.UIElements;
 using Oculus.Platform.Samples.VrHoops;
 using Oculus.Platform;
+using static ModMenuPatch.HarmonyPatches.MenuPatch;
+using System.Reflection;
+using System.Security.Cryptography;
+using Photon.Voice;
 
 namespace ModMenuPatch.HarmonyPatches;
 
@@ -112,29 +116,29 @@ internal class MenuPatch
 
     public static void turnoffallmods()
     {
-        for (int i = 0; i < 82; i++)
+        for (int i = 0; i < 84; i++)
         {
             buttonsActive[i] = false;
         }
     }
 
-    private static string[] buttons = new string[82]
+    private static string[] buttons = new string[85]
     {
-        "disconnect", //0
-		"quit gtag", //1
-		"join random pub", //2
-		"platforms", //3
-		"invis platforms", //4
-		"fly [d]", //5
-		"big monke/long arms", //6
-		"no gravity [d]",//7
+        "disconnect [ud]", //0
+		"quit gtag [ud]", //1
+		"join random pub [ud]", //2
+		"platforms [ud]", //3
+		"invis platforms [ud]", //4
+		"fly [sd]", //5
+		"big monke/long arms [ud]", //6
+		"removed due to detected",//7
 		"bigandsmall/size changer [cs]", //8
-		"sticky platforms", //9
-		"noclip [d?]", //10
+		"sticky platforms [ud]", //9
+		"noclip [ud]", //10
 		"nametags [nw]", //11
-		"fly and noclip [d]", //12
-		"esp/beacons", //13
-		"theme changer", //14
+		"fly and noclip [sd]", //12
+		"esp/beacons [ud]", //13
+		"theme changer [ud]", //14
         "disable afk kick [ud]", //15
         "make leaderboard button text 'Shibe' [cs]", //16
         "removed", //17
@@ -142,41 +146,41 @@ internal class MenuPatch
 		"break gamemode [ud] [lm]", //19
 		"insta tag [ud] [lm]", //20
 		"rock game [ud] [lm]", //21
-		"ghostcam [d?]", //22
-		"trigger to invis [d?]", //23
-		"no tag freeze", //24
+		"ghostcam [ud]", //22
+		"trigger to invis [ud]", //23
+		"no tag freeze [ud]", //24
 		"teleport gun [d?]", //25
-		"moon walk [d?]", //26
+		"moon walk [ud]", //26
 		"infection game [ud] [lm]", //27
-		"trigger fly [d]", //28
-		"first person camera", //29
+		"trigger fly [sd]", //28
+		"first person camera [ud]", //29
 		"trigger speed boost / mosa [nw]", //30
         "esp [nw]", //31
-        "wall walk [d?]", //32
-        "unreleased sweater [cs]", //33
-        "plank platforms", //34
+        "removed due to detected", //32
+        "unreleased sweater [cs] [ud]", //33
+        "plank platforms [ud]", //34
         "tag all [ud] [aspect]", //35
         "tag gun [ud] [aspect]", //36
-        "bubble pop spam [t]", //37
-        "umbrella spam [t]", //38
-        "elf spam [t]", //39
-        "turkey spam [t]", //40
+        "bubble pop spam [t] [ud]", //37
+        "umbrella spam [t] [ud]", //38
+        "elf spam [t] [ud]", //39
+        "turkey spam [t] [ud]", //40
         "take ownership [ud]", //41
         "untag gun [lm] [ud]", //42
         "keyboard lag self [ud] [cant turn off]", //43
-        "kick all [d]", //44
+        "removed due to detected", //44
         "go to blue team [m] [d?]", //45
         "go to red team [m] [d?]", //46
-        "id gun [puts ids on coc board]", //47
-        "disable rain", //48
-        "save ids to file [opens file on pc]", //49
-        "disable quitbox [the thing that closes ur game]", //50
+        "id gun [puts ids on coc board] [ud]", //47
+        "disable rain [ud] [cs]", //48
+        "save ids to file [opens file on pc] [ud]", //49
+        "disable quitbox [the thing that closes ur game] [ud]", //50
         "speed boost / mosa settings [nw]", //51
-        "have a literal panic attack", //52
-        "removed", //53
-        "car monk [t]", //54
-        "enable snow / be able to pick up snowballs", //55
-        "gun [hold grip then trigger]", //56
+        "have a literal panic attack [ud]", //52
+        "tag aura [ud] [aspect]", //53
+        "car monk [t] [aspect] [ud]", //54
+        "enable snow / be able to pick up snowballs [ud]", //55
+        "gun [hold grip then trigger] [ud]", //56
         "mute gun [cs] [ud]", //57
         "report gun [ud]", //58
         "press down joystick to leave [ud]", //59
@@ -186,27 +190,30 @@ internal class MenuPatch
         "follow closest / random [ud]", //63
         "really fast turn speed / helicopter monke [ud]", //64
         "force tag lag [lm] [ud]", //65
-        "remove all plats [t] [thatonemodder]", //66
-        "plat gun [thatonemodder]", //67
-        "enable pushtotalk", //68
+        "remove all plats [t] [thatonemodder] [ud]", //66
+        "plat gun [thatonemodder] [ud]", //67
+        "enable pushtotalk [ud]", //68
         "remove leaves [cs] [nw]", //69
         "head spin [ud]", //70
         "trigger to toggle platforms [ud]", //71
         "panic [turns off all mods] [ud]", //72
-        "grip to wall walk [d?]", //73
-        "jupiter walk", //74
-        "roll monke [headspin but up]", //75
-        "show playerid on player [w?]", //76
-        "copy gun [w?]", //77
-        "checkpoint [d?]", //78
-        "scare gun / rig gun", //79
-        "lag all [w?]", //80
-        "Magnet Gun", //81
+        "removed due to detected", //73
+        "jupiter walk [ud]", //74
+        "roll monke [headspin but up] [ud]", //75
+        "show playerid on player [nw]", //76
+        "copy gun [nw]", //77
+        "checkpoint [ud]", //78
+        "scare gun / rig gun [ud]", //79
+        "lag all [t] [ud] [lunar]", //80
+        "magnet gun [ud]", //81
+        "download antimodchecker [ud]", //82
+        "activate cosmetics mirror [cs] [ud]", //83
+        "put rig under floor [ud]" //84
     };
 
-    private static bool?[] buttonsActive = new bool?[82]
+    private static bool?[] buttonsActive = new bool?[85]
     {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
     };
 
     private static bool gripDown;
@@ -293,8 +300,6 @@ internal class MenuPatch
 
     private static bool bigMonkeyEnabled = false;
 
-    private static bool bigMonkeAntiRepeat = false;
-
     private static int bigMonkeCooldown = 0;
 
     private static bool ghostMonkeEnabled = false;
@@ -316,8 +321,6 @@ internal class MenuPatch
     public static Color activatedcolor = purple;
 
     private static int ghostMonkeCooldown = 0;
-
-    private static bool checkedProps = false;
 
     private static bool teleportGunAntiRepeat = false;
 
@@ -468,20 +471,7 @@ internal class MenuPatch
 
     private static int pageSize = 7;
 
-    private static float dummyProjectileInitialScale;
-
     private static int pageNumber = 0;
-    private static void DestroyDummyProjectile()
-    {
-        if (hasDummyProjectile)
-        {
-            dummyProjectile.transform.localScale = Vector3.one * dummyProjectileInitialScale;
-            dummyProjectile.GetComponent<SphereCollider>().enabled = true;
-            ObjectPools.instance.Destroy(dummyProjectile);
-            dummyProjectile = null;
-            hasDummyProjectile = false;
-        }
-    }
 
     public static bool gripDownactual = false;
 
@@ -497,11 +487,11 @@ internal class MenuPatch
 
     public static string githubversion = null;
 
+    public static bool rightsecondarybutton = false;
+
     public static string currentverison = "6.6";
 
     public static bool lefttriggerpress = false;
-
-    public static WebClient webclient;
 
     private static void Prefix()
     {
@@ -522,12 +512,14 @@ internal class MenuPatch
             List<InputDevice> list = new List<InputDevice>();
             List<InputDevice> list2 = new List<InputDevice>();
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
+            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list2);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.triggerButton, out lefttriggerpress);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.secondaryButton, out leftresetbutton);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.secondaryButton, out leftsecondarybutton);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.primaryButton, out leftprimarypress);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.gripButton, out leftgrippress);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out leftthumbstickclick);
+            InputDevices.GetDeviceAtXRNode(rNode).TryGetFeatureValue(CommonUsages.secondaryButton, out rightsecondarybutton);
             list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out gripDown);
             list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDownactual);
             if (gripDown && menu == null) //left
@@ -588,13 +580,13 @@ internal class MenuPatch
                     {
                         if (MenuPatch.flying)
                         {
-                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 36f;
+                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 26f;
                             MenuPatch.flying = false;
                         }
                     }
                     else
                     {
-                        GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 30f;
+                        GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 20f;
                         GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         if (!MenuPatch.flying)
                         {
@@ -615,11 +607,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[7] == true)
                 {
-                    GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = false;
-                }
-                else
-                {
-                    GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = true;
+                    
                 }
                 if (buttonsActive[8] == true)
                 {
@@ -648,7 +636,6 @@ internal class MenuPatch
                             sizeManager.enabled = false;
                             MenuPatch.monkescale += 0.1f;
                             GorillaLocomotion.Player.Instance.scale = MenuPatch.monkescale;
-                            Thread.Sleep(MenuPatch.sizespeed.Value);
                         }
                     }
                     bool flag30 = MenuPatch.triggerpress2;
@@ -677,7 +664,6 @@ internal class MenuPatch
                                 }
                             }
                             GorillaLocomotion.Player.Instance.scale = MenuPatch.monkescale;
-                            Thread.Sleep(MenuPatch.sizespeed.Value);
                         }
                     }
                     bool flag38 = !MenuPatch.lefttriggerpress && !MenuPatch.lefttriggerpress && !MenuPatch.resetbutton;
@@ -720,7 +706,7 @@ internal class MenuPatch
                     {
                         if (MenuPatch.flying)
                         {
-                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 36f;
+                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 26f;
                             foreach (MeshCollider meshCollider2 in Resources.FindObjectsOfTypeAll<MeshCollider>())
                             {
                                 meshCollider2.transform.localScale = meshCollider2.transform.localScale * 10000f;
@@ -730,7 +716,7 @@ internal class MenuPatch
                     }
                     else
                     {
-                        GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 30f;
+                        GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 20f;
                         GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         if (!MenuPatch.flying)
                         {
@@ -830,8 +816,11 @@ internal class MenuPatch
                 }
                 if (buttonsActive[19] == true)
                 {
-                    MonoBehaviour mono = new MonoBehaviour();
-                    mono.StartCoroutine(breakgamemode());
+                    new Thread(yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudolol).Start();
+                }
+                else
+                {
+                    new Thread(yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudolol).Abort();
                 }
                 if (buttonsActive[20] == true)
                 {
@@ -858,22 +847,25 @@ internal class MenuPatch
                 }
                 if (buttonsActive[22] == true)
                 {
-                    if (leftsecondarybutton)
+                    if (rightsecondarybutton)
                     {
-                        if (!ghostToggled)
+                        if (!MenuPatch.ghostToggled && GorillaTagger.Instance.myVRRig.enabled)
                         {
                             GorillaTagger.Instance.myVRRig.enabled = false;
-                            ghostToggled = true;
+                            MenuPatch.ghostToggled = true;
                         }
-                        if (ghostToggled)
+                        else
                         {
-                            GorillaTagger.Instance.myVRRig.enabled = true;
-                            ghostToggled = false;
+                            if (!MenuPatch.ghostToggled && !GorillaTagger.Instance.myVRRig.enabled)
+                            {
+                                GorillaTagger.Instance.myVRRig.enabled = true;
+                                MenuPatch.ghostToggled = true;
+                            }
                         }
                     }
                     else
                     {
-                        ghostToggled = false;
+                        MenuPatch.ghostToggled = false;
                     }
                 }
                 if (buttonsActive[23] == true)
@@ -884,7 +876,7 @@ internal class MenuPatch
                     InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
                     list[0].TryGetFeatureValue(CommonUsages.triggerButton, out trig);
                     list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out sec);
-                    if (trig)
+                    if (!trig)
                     {
                         GorillaTagger.Instance.myVRRig.enabled = true;
                     }
@@ -938,13 +930,13 @@ internal class MenuPatch
                     {
                         if (MenuPatch.flying)
                         {
-                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 36f;
+                            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 26f;
                             MenuPatch.flying = false;
                         }
                     }
                     else
                     {
-                        GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 30f;
+                        GorillaLocomotion.Player.Instance.transform.position += GorillaLocomotion.Player.Instance.headCollider.transform.forward * Time.deltaTime * 20f;
                         GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         if (!MenuPatch.flying)
                         {
@@ -973,46 +965,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[32] == true)
                 {
-                    if (!MenuPatch.DoOnce)
-                    {
-                        MenuPatch.max = new ConfigFile(Path.Combine(Paths.ConfigPath, "WallWalking.cfg"), true).Bind<float>("Configuration", "MaxDistance", 1f, "The max distance you can be from a wall before you go down");
-                        MenuPatch.maxD = MenuPatch.max.Value;
-                        MenuPatch.layers = 512;
-                        MenuPatch.DoOnce = true;
-                    }
-                    RaycastHit raycastHit;
-                    Physics.Raycast(GorillaTagger.Instance.rightHandTransform.position, -GorillaTagger.Instance.rightHandTransform.right, out raycastHit, 100f, MenuPatch.layers);
-                    RaycastHit raycastHit2;
-                    Physics.Raycast(GorillaTagger.Instance.leftHandTransform.position, GorillaTagger.Instance.leftHandTransform.right, out raycastHit2, 100f, MenuPatch.layers);
-                    if (raycastHit2.distance > raycastHit.distance)
-                    {
-                        MenuPatch.normal = raycastHit.normal;
-                        MenuPatch.dist = raycastHit.distance;
-                        MenuPatch.LeftClose = false;
-                    }
-                    else
-                    {
-                        MenuPatch.normal = raycastHit2.normal;
-                        MenuPatch.dist = raycastHit2.distance;
-                        MenuPatch.LeftClose = true;
-                    }
-                    if (MenuPatch.dist < MenuPatch.maxD)
-                    {
-                        GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = false;
-                        MenuPatch.vel2 = MenuPatch.normal * (9.8f * Time.deltaTime);
-                        GorillaTagger.Instance.bodyCollider.attachedRigidbody.velocity -= MenuPatch.vel2;
-                    }
-                    else
-                    {
-                        GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = true;
-                    }
-                }
-                else
-                {
-                    if (MenuPatch.buttonsActive[7] == false && buttonsActive[73] == false)
-                    {
-                        GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = true;
-                    }
+                    
                 }
                 if (buttonsActive[33] == true)
                 {
@@ -1210,7 +1163,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[44] == true)
                 {
-                    PhotonNetwork.CurrentRoom.Players.Clear();
+                    
                 }
                 if (buttonsActive[45] == true)
                 {
@@ -1286,7 +1239,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[53] == true)
                 {
-
+                    ProcessTagAura();
                 }
                 if (buttonsActive[54] == true)
                 {
@@ -1568,49 +1521,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[73] == true)
                 {
-                    if (leftgrippress)
-                    {
-                        if (!MenuPatch.DoOnce)
-                        {
-                            MenuPatch.max = new ConfigFile(Path.Combine(Paths.ConfigPath, "WallWalking.cfg"), true).Bind<float>("Configuration", "MaxDistance", 1f, "The max distance you can be from a wall before you go down");
-                            MenuPatch.maxD = MenuPatch.max.Value;
-                            MenuPatch.layers = 512;
-                            MenuPatch.DoOnce = true;
-                        }
-                        RaycastHit raycastHit;
-                        Physics.Raycast(GorillaTagger.Instance.rightHandTransform.position, -GorillaTagger.Instance.rightHandTransform.right, out raycastHit, 100f, MenuPatch.layers);
-                        RaycastHit raycastHit2;
-                        Physics.Raycast(GorillaTagger.Instance.leftHandTransform.position, GorillaTagger.Instance.leftHandTransform.right, out raycastHit2, 100f, MenuPatch.layers);
-                        if (raycastHit2.distance > raycastHit.distance)
-                        {
-                            MenuPatch.normal = raycastHit.normal;
-                            MenuPatch.dist = raycastHit.distance;
-                            MenuPatch.LeftClose = false;
-                        }
-                        else
-                        {
-                            MenuPatch.normal = raycastHit2.normal;
-                            MenuPatch.dist = raycastHit2.distance;
-                            MenuPatch.LeftClose = true;
-                        }
-                        if (MenuPatch.dist < MenuPatch.maxD)
-                        {
-                            GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = false;
-                            MenuPatch.vel2 = MenuPatch.normal * (9.8f * Time.deltaTime);
-                            GorillaTagger.Instance.bodyCollider.attachedRigidbody.velocity -= MenuPatch.vel2;
-                        }
-                        else
-                        {
-                            GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = true;
-                        }
-                    }
-                }
-                else
-                {
-                    if (MenuPatch.buttonsActive[7] == false && buttonsActive[32] == false)
-                    {
-                        GorillaTagger.Instance.bodyCollider.attachedRigidbody.useGravity = true;
-                    }
+                    
                 }
                 if (buttonsActive[74] == true)
                 {
@@ -1637,13 +1548,17 @@ internal class MenuPatch
                 }
                 if (buttonsActive[76] == true)
                 {
-                    foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                    Component component = new Component();
+                    string chestname;
+                    GameObject gameObject4 = component.GetComponentInChildren<Canvas>().gameObject;
+                    Text chesttag = chesttag = gameObject4.GetComponentInChildren<Text>();
+                    foreach (Photon.Realtime.Player player2 in PhotonNetwork.PlayerList)
                     {
-                        foreach (Photon.Realtime.Player player2 in PhotonNetwork.PlayerList)
+                        chestname = string.Format("{0}\n{1}", new object[]
                         {
-                            vrrig.name = vrrig.name + "\n" + player2.UserId;
-                            vrrig.playerName = vrrig.playerName + "\n" + player2.UserId;
-                        }
+                            player2.NickName,
+                            player2.UserId
+                        });
                     }
                 }
                 if (buttonsActive[77] == true)
@@ -1668,11 +1583,51 @@ internal class MenuPatch
                 }
                 if (buttonsActive[80] == true)
                 {
-                    crash();
+                    if (lefttriggerpress)
+                    {
+                        lagservLUNAR();
+                    }
                 }
                 if (buttonsActive[81] == true)
                 {
                     controlgun();
+                }
+                if (buttonsActive[82] == true)
+                {
+                    if (!neverused)
+                    {
+                        webclient.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
+                    }
+                }
+                else
+                {
+                    neverused = false;
+                }
+                if (buttonsActive[83] == true)
+                {
+                    GameObject.Find("Level/lower level/mirror (1)").SetActive(true);
+                }
+                else
+                {
+                    GameObject.Find("Level/lower level/mirror (1)").SetActive(false);
+                }
+                if (buttonsActive[84] == true)
+                {
+                    bool trig = false;
+                    bool sec = false;
+                    list = new List<InputDevice>();
+                    InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
+                    list[0].TryGetFeatureValue(CommonUsages.triggerButton, out trig);
+                    list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out sec);
+                    if (!trig)
+                    {
+                        GorillaTagger.Instance.myVRRig.enabled = true;
+                    }
+                    else
+                    {
+                        GorillaTagger.Instance.myVRRig.enabled = false;
+                        GorillaTagger.Instance.myVRRig.transform.position = GorillaLocomotion.Player.Instance.transform.position + new Vector3(0, -10, 0);
+                    }
                 }
                 if (btnCooldown > 0 && Time.frameCount > btnCooldown)
                 {
@@ -1717,7 +1672,7 @@ internal class MenuPatch
         {
             Material dacolorfordaboards = new Material(Shader.Find("Standard"));
             dacolorfordaboards.color = Color.black;
-            string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V6.0!\nTHANKS FOR 1K ON YT!\nDISCORD: SHIBAGTMODMENU\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
+            string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V7.0!\nTHANKS FOR ALL THE SUPPORT!\nDISCORD: SHIBAGTMODMENU\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
             GorillaComputer.instance.levelScreens[i].goodMaterial = dacolorfordaboards;
             GameObject.Find("Level/lower level/StaticUnlit/motdscreen").GetComponent<Renderer>().material = dacolorfordaboards;
             GameObject.Find("Level/lower level/UI/PhysicalComputer/monitor").GetComponent<Renderer>().material = dacolorfordaboards;
@@ -1745,6 +1700,65 @@ internal class MenuPatch
     public static bool opened = false;
 
     public static bool hasbeenenabled = false;
+
+    public static bool neverused = false;
+
+    public static Photon.Realtime.Player view;
+
+    public static WebClient webclient;
+
+    public static void ProcessTagAura()
+    {
+        foreach (VRRig rig in GorillaParent.instance.vrrigs)
+        {
+            float distance = Vector3.Distance(GorillaTagger.Instance.myVRRig.transform.position, rig.transform.position);
+            if (distance < GorillaTagManager.instance.tagDistanceThreshold)
+            {
+                PhotonView.Get(GorillaGameManager.instance.GetComponent<GorillaGameManager>()).RPC("ReportTagRPC", RpcTarget.MasterClient, new object[]
+                {
+                        rig.photonView.Owner
+                });
+            }
+        }
+    }
+
+    public static void lagservLUNAR()
+    {
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+    }
+
 
     public static void controlgun()
     {
@@ -1984,29 +1998,6 @@ internal class MenuPatch
         colorChanger.Start();
     }
 
-
-
-    public static void PopBalloon()
-    {
-        GameObject gameObject = ObjectPools.instance.Instantiate(balloonPopFXPrefab);
-        gameObject.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
-        GorillaColorizableBase componentInChildren = gameObject.GetComponentInChildren<GorillaColorizableBase>();
-        if (componentInChildren != null)
-        {
-            componentInChildren.SetColor(balloonPopFXColor);
-        }
-    }
-
-    public static int pastquality = QualitySettings.GetQualityLevel();
-
-    // Token: 0x0400033E RID: 830
-    public static GameObject balloonPopFXPrefab;
-
-    // Token: 0x0400033F RID: 831
-    public static Color balloonPopFXColor;
-
-    public static VRRig vrrigtouse;
-
     public static void followgunnoway()
     {
         foreach (VRRig vrrig in (VRRig[])UnityEngine.Object.FindObjectsOfType(typeof(VRRig)))
@@ -2056,7 +2047,6 @@ internal class MenuPatch
             GorillaTagger.Instance.myVRRig.rightHandTransform.transform.position = vrrigtouse2.rightHandTransform.transform.position;
             GorillaTagger.Instance.myVRRig.leftHandTransform.transform.position = vrrigtouse2.leftHandTransform.transform.position;
             GorillaTagger.Instance.myVRRig.head.headTransform.position = vrrigtouse2.head.headTransform.position;
-            GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity = new Vector3(-0.55f, 1f, -0.55f);
         }
         else
         {
@@ -2067,13 +2057,13 @@ internal class MenuPatch
 
     public static VRRig vrrigtouse2;
 
-    public static IEnumerator breakgamemode()
+    public static void yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudolol()
     {
+        Thread.Sleep(500);
         foreach (GorillaTagManager manager in UnityEngine.Object.FindObjectsOfType<GorillaTagManager>())
         {
             manager.ClearInfectionState();
         }
-        yield return new WaitForSeconds(.5f);
     }
     public static void literalgun()
     {
@@ -2315,9 +2305,6 @@ internal class MenuPatch
 
     // Token: 0x040000B1 RID: 177
     private static Vector3 vel2;
-
-    public static GameObject modObject;
-    public static string meshPath;
 
     public static int layers = 512;
 
@@ -2588,7 +2575,6 @@ internal class MenuPatch
     private static bool resetbutton;
 
     // Token: 0x04000008 RID: 8
-    public static ConfigEntry<int> sizespeed;
 
     public static bool sent = false;
 
