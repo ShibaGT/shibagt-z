@@ -33,6 +33,9 @@ using static ModMenuPatch.HarmonyPatches.MenuPatch;
 using System.Reflection;
 using System.Security.Cryptography;
 using Photon.Voice;
+using shibagtzgui;
+using static Autodesk.Fbx.FbxTime;
+using static UnityEngine.UI.Image;
 
 namespace ModMenuPatch.HarmonyPatches;
 
@@ -122,7 +125,7 @@ internal class MenuPatch
         }
     }
 
-    private static string[] buttons = new string[85]
+    private static string[] buttons = new string[87]
     {
         "disconnect [ud]", //0
 		"quit gtag [ud]", //1
@@ -208,12 +211,14 @@ internal class MenuPatch
         "magnet gun [ud]", //81
         "download antimodchecker [ud]", //82
         "activate cosmetics mirror [cs] [ud]", //83
-        "put rig under floor [ud]" //84
+        "put rig under floor [ud]", //84
+        "give slingshot self [w] [ud]", //85
+        "build gun [w?] [ud]" //86
     };
 
-    private static bool?[] buttonsActive = new bool?[85]
+    private static bool?[] buttonsActive = new bool?[87]
     {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
     };
 
     private static bool gripDown;
@@ -1469,6 +1474,10 @@ internal class MenuPatch
                 {
                     PlayerPrefs.SetString("pttType", "PUSH TO TALK");
                     PlayerPrefs.Save();
+                    buttonsActive[68] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
                 }
                 if (buttonsActive[69] == true)
                 {
@@ -1596,7 +1605,10 @@ internal class MenuPatch
                 {
                     if (!neverused)
                     {
-                        webclient.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
+                        neverused = true;
+                        WebClient web = new WebClient();
+                        web.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
+                        web.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gorilla Tag\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
                     }
                 }
                 else
@@ -1606,10 +1618,10 @@ internal class MenuPatch
                 if (buttonsActive[83] == true)
                 {
                     GameObject.Find("Level/lower level/mirror (1)").SetActive(true);
-                }
-                else
-                {
-                    GameObject.Find("Level/lower level/mirror (1)").SetActive(false);
+                    buttonsActive[83] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
                 }
                 if (buttonsActive[84] == true)
                 {
@@ -1626,8 +1638,26 @@ internal class MenuPatch
                     else
                     {
                         GorillaTagger.Instance.myVRRig.enabled = false;
-                        GorillaTagger.Instance.myVRRig.transform.position = GorillaLocomotion.Player.Instance.transform.position + new Vector3(0, -10, 0);
+                        GorillaTagger.Instance.myVRRig.transform.position = GorillaLocomotion.Player.Instance.transform.position + new Vector3(0, -5, 0);
                     }
+                }
+                if (buttonsActive[85] == true)
+                {
+                    VRRig offlineVRRig = GorillaTagger.Instance.offlineVRRig;
+                    if (offlineVRRig != null && !Slingshot.IsSlingShotEnabled())
+                    {
+                        CosmeticsController instance = CosmeticsController.instance;
+                        CosmeticsController.CosmeticItem itemFromDict = instance.GetItemFromDict("Slingshot");
+                        instance.ApplyCosmeticItemToSet(offlineVRRig.cosmeticSet, itemFromDict, true, false);
+                    }
+                    buttonsActive[85] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
+                }
+                if (buttonsActive[86] == true)
+                {
+                    ProcessBuildGunPLUS();
                 }
                 if (btnCooldown > 0 && Time.frameCount > btnCooldown)
                 {
@@ -1672,7 +1702,7 @@ internal class MenuPatch
         {
             Material dacolorfordaboards = new Material(Shader.Find("Standard"));
             dacolorfordaboards.color = Color.black;
-            string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V7.0!\nTHANKS FOR ALL THE SUPPORT!\nDISCORD: SHIBAGTMODMENU\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
+            string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V7.0!\n\nTHANKS FOR ALL THE SUPPORT!\nDISCORD: SHIBAGTMODMENU\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
             GorillaComputer.instance.levelScreens[i].goodMaterial = dacolorfordaboards;
             GameObject.Find("Level/lower level/StaticUnlit/motdscreen").GetComponent<Renderer>().material = dacolorfordaboards;
             GameObject.Find("Level/lower level/UI/PhysicalComputer/monitor").GetComponent<Renderer>().material = dacolorfordaboards;
@@ -1757,8 +1787,28 @@ internal class MenuPatch
         PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
         GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
         PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
     }
 
+    public static void crashtest()
+    {
+        SlingshotProjectile slingshotProjectile = new SlingshotProjectile();
+        slingshotProjectile.Launch(GorillaLocomotion.Player.Instance.transform.position + new Vector3(0, 15, 0), Vector3.zero, PhotonNetwork.LocalPlayer, false, true, 1, 1);
+    }
 
     public static void controlgun()
     {
@@ -2634,7 +2684,55 @@ internal class MenuPatch
         }
     }
 
+    private static void ProcessBuildGunPLUS()
+    {
+        bool value = false;
+        bool value2 = false;
+        List<InputDevice> list = new List<InputDevice>();
+        InputDevices.GetDevices(list);
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
+        list[0].TryGetFeatureValue(CommonUsages.triggerButton, out value);
+        list[0].TryGetFeatureValue(CommonUsages.gripButton, out value2);
+        if (value2)
+        {
+            Physics.Raycast(GorillaLocomotion.Player.Instance.rightHandTransform.position - GorillaLocomotion.Player.Instance.rightHandTransform.up, -GorillaLocomotion.Player.Instance.rightHandTransform.up, out var hitInfo);
+            if (pointer == null)
+            {
+                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
+                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
+                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            }
+            pointer.transform.position = hitInfo.point;
+            if (value)
+            {
+                if (!buildgunanti)
+                {
+                    thebuildthing = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    UnityEngine.Object.Destroy(thebuildthing.GetComponent<Rigidbody>());
+                    thebuildthing.transform.localScale = new Vector3(1f, 1f, 0.1f);
+                    thebuildthing.transform.position = pointer.transform.position + new Vector3(0, 1, 0);
+                    buildgunanti = true;
+                }
+            }
+            else
+            {
+                buildgunanti = false;
+            }
+        }
+        else
+        {
+            UnityEngine.Object.Destroy(pointer);
+            pointer = null;
+            buildgunanti = false;
+        }
+    }
+
     private static GradientColorKey[] colorKeys = new GradientColorKey[4];
+
+    public static bool buildgunanti;
+
+    public static GameObject thebuildthing = null;
 
     private static void ProcessPlatformMonke()
     {
@@ -3280,7 +3378,7 @@ internal class MenuPatch
         Text text = gameObject2.AddComponent<Text>();
         text.font = (Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font);
         text.fontStyle = FontStyle.Bold;
-        text.text = "ShibaGTs Mod Menu-Z v6.6";
+        text.text = "ShibaGTs Mod Menu-Z v7.0";
         text.fontSize = 1;
         text.color = Color.white;
         text.alignment = TextAnchor.MiddleCenter;

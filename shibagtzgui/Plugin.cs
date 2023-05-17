@@ -26,15 +26,19 @@ namespace shibagtzgui
     {
         string stringthing;
         bool disconnect;
+        bool esp = false;
         bool panic;
         bool onn = true;
         bool enable;
+        bool crashtestt = false;
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
+        bool rigunder = false;
         bool crashall = false;
         bool tagall;
         bool trapall;
+        bool aura = false;
         bool antimodcheck = false;
         bool nameset;
 
@@ -71,7 +75,7 @@ namespace shibagtzgui
             if (onn)
             {
                 GUI.color = Color.white;
-                GUI.Box(new Rect(15, 15, 350, 300), "ShibaGT-Z GUI");
+                GUI.Box(new Rect(15, 15, 350, 300), "ShibaGT-Z GUI (F2 to hide)");
 
                 GUI.color = Color.black;
                 GUI.color = Color.white;
@@ -153,16 +157,32 @@ namespace shibagtzgui
                 crashall = GUI.Toggle(new Rect(125, 75, 100, 25), crashall, "lag all [ud]");
                 if (crashall)
                 {
-                    new Thread(MenuPatch.lagservLUNAR).Start();
+                    lagservLUNAR();
+                }
+                antimodcheck = GUI.Toggle(new Rect(125, 105, 200, 25), antimodcheck, "antimodcheck (check plugins)");
+                if (antimodcheck)
+                {
+                    if (!neverused)
+                    {
+                        neverused = true;
+                        WebClient web = new WebClient();
+                        web.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
+                        web.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gorilla Tag\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
+                    }
                 }
                 else
                 {
-                    new Thread(MenuPatch.lagservLUNAR).Abort();
+                    neverused = false;
                 }
-                antimodcheck = GUI.Toggle(new Rect(125, 105, 100, 25), antimodcheck, "anti mod check [ud]");
-                if (antimodcheck)
+                aura = GUI.Toggle(new Rect(125, 135, 100, 25), aura, "tag aura [ud]");
+                if (aura)
                 {
-                    
+                    MenuPatch.ProcessTagAura();
+                }
+                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "beacons [ud]");
+                if (esp)
+                {
+                    beacons();
                 }
             }
         }
@@ -216,6 +236,25 @@ namespace shibagtzgui
         }
 
         private static GradientColorKey[] colorKeysPlatformMonke = new GradientColorKey[4];
+
+        public static void beacons()
+        {
+            foreach (VRRig vrrig in (VRRig[])UnityEngine.Object.FindObjectsOfType(typeof(VRRig)))
+            {
+                if (!vrrig.isOfflineVRRig && !vrrig.isMyPlayer && !vrrig.photonView.IsMine)
+                {
+                    GameObject gameObject2 = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                    UnityEngine.Object.Destroy(gameObject2.GetComponent<BoxCollider>());
+                    UnityEngine.Object.Destroy(gameObject2.GetComponent<Rigidbody>());
+                    UnityEngine.Object.Destroy(gameObject2.GetComponent<Collider>());
+                    gameObject2.transform.rotation = Quaternion.identity;
+                    gameObject2.transform.localScale = new Vector3(0.04f, 200f, 0.04f);
+                    gameObject2.transform.position = vrrig.transform.position;
+                    gameObject2.GetComponent<MeshRenderer>().material = vrrig.mainSkin.material;
+                    UnityEngine.Object.Destroy(gameObject2, Time.deltaTime);
+                }
+            }
+        }
 
         public static void TagAll()
         {
