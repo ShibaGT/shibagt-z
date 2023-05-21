@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using static ModMenuPatch.HarmonyPatches.MenuPatch;
 using System.Threading;
+using UnityEngine.UI;
 
 namespace shibagtzgui
 {
@@ -31,12 +32,14 @@ namespace shibagtzgui
         bool onn = true;
         bool enable;
         bool crashtestt = false;
+        bool ptt;
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
         bool rigunder = false;
         bool crashall = false;
         bool tagall;
+        public static bool fpc = false;
         bool trapall;
         bool aura = false;
         bool antimodcheck = false;
@@ -44,8 +47,7 @@ namespace shibagtzgui
 
         void Start()
         {
-            /* A lot of Gorilla Tag systems will not be set up when start is called /*
-			/* Put code in OnGameInitialized to avoid null references */
+            
         }
 
         void OnEnable()
@@ -84,7 +86,7 @@ namespace shibagtzgui
                 {
                     PhotonNetwork.Disconnect();
                 }
-                stringthing = GUI.TextArea(new Rect(25, 75, 100, 25), stringthing);
+                stringthing = GUI.TextField(new Rect(25, 75, 100, 25), stringthing);
                 lobbyjoin = GUI.Button(new Rect(25, 105, 100, 25), "Join Lobby");
                 if (lobbyjoin)
                 {
@@ -174,12 +176,12 @@ namespace shibagtzgui
                 {
                     neverused = false;
                 }
-                aura = GUI.Toggle(new Rect(125, 135, 100, 25), aura, "tag aura [ud]");
+                aura = GUI.Toggle(new Rect(125, 135, 100, 25), aura, "tag aura");
                 if (aura)
                 {
                     MenuPatch.ProcessTagAura();
                 }
-                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "beacons [ud]");
+                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "beacons");
                 if (esp)
                 {
                     beacons();
