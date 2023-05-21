@@ -1667,7 +1667,8 @@ internal class MenuPatch
                 }
                 if (buttonsActive[86] == true)
                 {
-                    
+                    GorillaTagger.Instance.DoVibration(lNode, 999, 1);
+                    GorillaTagger.Instance.DoVibration(rNode, 999, 1);
                 }
                 if (buttonsActive[87] == true)
                 {
