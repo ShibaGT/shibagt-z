@@ -33,6 +33,7 @@ namespace shibagtzgui
         bool enable;
         bool crashtestt = false;
         bool ptt;
+        bool afk = false;
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
@@ -181,10 +182,15 @@ namespace shibagtzgui
                 {
                     MenuPatch.ProcessTagAura();
                 }
-                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "beacons");
+                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "esp");
                 if (esp)
                 {
-                    beacons();
+                    homemadeesp();
+                }
+                afk = GUI.Toggle(new Rect(125, 195, 100, 25), afk, "disable afk kick");
+                if (afk)
+                {
+                    disableafk();
                 }
             }
         }

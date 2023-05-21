@@ -162,7 +162,7 @@ internal class MenuPatch
 		"trigger fly [sd]", //28
 		"first person camera [ud]", //29
 		"trigger speed boost / mosa [nw]", //30
-        "esp [nw]", //31
+        "esp", //31
         "removed due to detected", //32
         "unreleased sweater [cs] [ud]", //33
         "plank platforms [ud]", //34
@@ -323,15 +323,15 @@ internal class MenuPatch
 
     public static int thememnumber = 0;
 
-    public static Color maincolor = Color.black;
+    public static Color maincolor = black;
 
-    public static Color buttoncolor = Color.black;
+    public static Color buttoncolor = black;
 
     public static bool animated = false;
 
-    public static Color firstcolor = Color.black;
+    public static Color firstcolor = black;
 
-    public static Color secondcolor = Color.black;
+    public static Color secondcolor = black;
 
     public static Color activatedcolor = purple;
 
@@ -779,10 +779,10 @@ internal class MenuPatch
                     {
                         thememnumber = 0;
                         animated = false;
-                        firstcolor = Color.black;
-                        secondcolor = Color.black;
-                        maincolor = Color.black;
-                        buttoncolor = Color.black;
+                        firstcolor = black;
+                        secondcolor = black;
+                        maincolor = black;
+                        buttoncolor = black;
                         activatedcolor = purple;
                     } //change to main theme and 0
                     if (thememnumber == 0)
@@ -980,7 +980,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[31] == true)
                 {
-                    Console.WriteLine("no work");
+                    homemadeesp();
                 }
                 if (buttonsActive[32] == true)
                 {
@@ -1667,8 +1667,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[86] == true)
                 {
-                    GorillaTagger.Instance.DoVibration(rNode, 999, 1);
-                    GorillaTagger.Instance.DoVibration(lNode, 999, 1);
+                    
                 }
                 if (buttonsActive[87] == true)
                 {
@@ -2473,28 +2472,28 @@ internal class MenuPatch
                         {
                             foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
                             {
-                                if (ids[0] == "not used" && !zeroused)
+                                if (!zeroused)
                                 {
                                     ids[0] = owner.NickName + " = " + owner.UserId;
                                     MenuPatch.checkpointTeleportAntiRepeat = true;
                                     zeroused = true;
                                     return;
                                 }
-                                if (ids[1] == "not used" && !oneused)
+                                if (!oneused)
                                 {
                                     ids[1] = owner.NickName + " = " + owner.UserId;
                                     MenuPatch.checkpointTeleportAntiRepeat = true;
                                     oneused = true;
                                     return;
                                 }
-                                if (ids[2] == "not used" && !twoused)
+                                if (!twoused)
                                 {
                                     ids[2] = owner.NickName + " = " + owner.UserId;
                                     MenuPatch.checkpointTeleportAntiRepeat = true;
                                     twoused = true;
                                     return;
                                 }
-                                if (ids[3] == "not used" && !threeused)
+                                if (!threeused)
                                 {
                                     ids[3] = owner.NickName + " = " + owner.UserId;
                                     MenuPatch.checkpointTeleportAntiRepeat = true;
@@ -2512,7 +2511,7 @@ internal class MenuPatch
         }
     }
 
-    private static void disableafk()
+    public static void disableafk()
     {
         foreach (GorillaKeyboardButton gorillaKeyboardButton in UnityEngine.Object.FindObjectsOfType<GorillaKeyboardButton>())
         {
@@ -2695,6 +2694,14 @@ internal class MenuPatch
         get
         {
             return new Color(0.7f, 0f, 0.9f, 1f);
+        }
+    }
+
+    public static Color black
+    {
+        get
+        {
+            return new Color32(0, 0, 0, 1);
         }
     }
 
@@ -2992,6 +2999,17 @@ internal class MenuPatch
             }
         }
 
+    }
+
+    public static void homemadeesp()
+    {
+        foreach (VRRig vrrig in (VRRig[])UnityEngine.Object.FindObjectsOfType(typeof(VRRig)))
+        {
+            {
+                Material matthingcham = new Material(Shader.Find("GUI/Text Shader"));
+                vrrig.mainSkin.material = matthingcham;
+            }
+        }
     }
 
     private static void triggerplats()
