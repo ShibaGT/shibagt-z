@@ -32,12 +32,17 @@ namespace shibagtzgui
         bool enable;
         bool crashtestt = false;
         bool ptt;
+<<<<<<< HEAD
+=======
+        bool afk = false;
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
         bool rigunder = false;
         bool crashall = false;
         bool tagall;
+        public static bool fpc = false;
         bool trapall;
         bool aura = false;
         bool antimodcheck = false;
@@ -174,15 +179,20 @@ namespace shibagtzgui
                 {
                     neverused = false;
                 }
-                aura = GUI.Toggle(new Rect(125, 135, 100, 25), aura, "tag aura [ud]");
+                aura = GUI.Toggle(new Rect(125, 135, 100, 25), aura, "tag aura");
                 if (aura)
                 {
                     MenuPatch.ProcessTagAura();
                 }
-                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "beacons [ud]");
+                esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "esp");
                 if (esp)
                 {
-                    beacons();
+                    homemadeesp();
+                }
+                afk = GUI.Toggle(new Rect(125, 195, 100, 25), afk, "disable afk kick");
+                if (afk)
+                {
+                    disableafk();
                 }
             }
         }

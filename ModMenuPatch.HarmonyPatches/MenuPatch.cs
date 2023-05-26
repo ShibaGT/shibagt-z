@@ -16,6 +16,27 @@ using GorillaLocomotion.Swimming;
 using System.Threading;
 using BepInEx.Configuration;
 using System.Net;
+<<<<<<< HEAD
+=======
+using static UnityEngine.UI.GridLayoutGroup;
+using System.Collections;
+using UnityEngine.XR.Interaction.Toolkit;
+using PlayFab.ClientModels;
+using UnityEngine.UIElements;
+using Oculus.Platform.Samples.VrHoops;
+using Oculus.Platform;
+using static ModMenuPatch.HarmonyPatches.MenuPatch;
+using System.Reflection;
+using System.Security.Cryptography;
+using Photon.Voice;
+using shibagtzgui;
+using static Autodesk.Fbx.FbxTime;
+using static UnityEngine.UI.Image;
+using GorillaLocomotion.Gameplay;
+using Valve.VR.InteractionSystem;
+using Mono.Cecil.Cil;
+using static SteamVR_Utils;
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
 
 namespace ModMenuPatch.HarmonyPatches;
 
@@ -104,7 +125,11 @@ internal class MenuPatch
         }
     }
 
+<<<<<<< HEAD
     private static string[] buttons = new string[91]
+=======
+    private static string[] buttons = new string[93]
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
     {
         "disconnect [ud]", //0
 		"quit gtag [ud]", //1
@@ -137,7 +162,7 @@ internal class MenuPatch
 		"trigger fly [sd]", //28
 		"first person camera [ud]", //29
 		"trigger speed boost / mosa [nw]", //30
-        "esp [nw]", //31
+        "esp", //31
         "removed due to detected", //32
         "unreleased sweater [cs] [ud]", //33
         "plank platforms [ud]", //34
@@ -161,7 +186,7 @@ internal class MenuPatch
         "have a literal panic attack [ud]", //52
         "tag aura [ud] [aspect]", //53
         "car monk [t] [aspect] [ud]", //54
-        "enable snow / be able to pick up snowballs [ud]", //55
+        "removed due to breaking menu", //55
         "gun [hold grip then trigger] [ud]", //56
         "mute gun [cs] [ud]", //57
         "report gun [ud]", //58
@@ -191,6 +216,7 @@ internal class MenuPatch
         "download antimodchecker [ud]", //82
         "activate cosmetics mirror [cs] [ud]", //83
         "put rig under floor [ud]", //84
+<<<<<<< HEAD
         "give slingshot self [w] [ud]", //85
         "vibrate yourself [cs] [ud]", //86
         "steam long arms [ud]", //87
@@ -202,6 +228,21 @@ internal class MenuPatch
     public static bool?[] buttonsActive = new bool?[91]
     {
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+=======
+        "give slingshot self [ud]", //85
+        "vibrate yourself [cs] [ud]", //86
+        "steam long arms [ud]", //87
+        "fake lag [t] [ud]", //88
+        "draw [cs] [ud]", //89
+        "make drawing bigger [ud]", //90
+        "make drawing smaller [ud]", //91
+        "destroy all drawings [t] [ud]", //92
+    };
+
+    public static bool?[] buttonsActive = new bool?[93]
+    {
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
     };
 
     private static bool gripDown;
@@ -296,15 +337,15 @@ internal class MenuPatch
 
     public static int thememnumber = 0;
 
-    public static Color maincolor = Color.black;
+    public static Color maincolor = black;
 
-    public static Color buttoncolor = Color.black;
+    public static Color buttoncolor = black;
 
     public static bool animated = false;
 
-    public static Color firstcolor = Color.black;
+    public static Color firstcolor = black;
 
-    public static Color secondcolor = Color.black;
+    public static Color secondcolor = black;
 
     public static Color activatedcolor = purple;
 
@@ -478,7 +519,9 @@ internal class MenuPatch
 
     public static bool rightsecondarybutton = false;
 
-    public static string currentverison = "6.6";
+    public static bool didthethingwebhook = false;
+
+    public static string currentverison = "7.0";
 
     public static bool lefttriggerpress = false;
 
@@ -750,10 +793,10 @@ internal class MenuPatch
                     {
                         thememnumber = 0;
                         animated = false;
-                        firstcolor = Color.black;
-                        secondcolor = Color.black;
-                        maincolor = Color.black;
-                        buttoncolor = Color.black;
+                        firstcolor = black;
+                        secondcolor = black;
+                        maincolor = black;
+                        buttoncolor = black;
                         activatedcolor = purple;
                     } //change to main theme and 0
                     if (thememnumber == 0)
@@ -951,7 +994,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[31] == true)
                 {
-                    Console.WriteLine("no work");
+                    homemadeesp();
                 }
                 if (buttonsActive[32] == true)
                 {
@@ -1237,11 +1280,7 @@ internal class MenuPatch
                 }
                 if (buttonsActive[55] == true)
                 {
-                    GameObject.Find("Level/forest/ForestObjects/WeatherDayNight/snow").SetActive(true);
-                }
-                else
-                {
-                    GameObject.Find("Level/forest/ForestObjects/WeatherDayNight/snow").SetActive(false);
+                    
                 }
                 if (buttonsActive[56] == true)
                 {
@@ -1639,9 +1678,61 @@ internal class MenuPatch
                         menu = null;
                         Draw();
                     }
+<<<<<<< HEAD
+=======
                 }
                 if (buttonsActive[86] == true)
                 {
+                    GorillaTagger.Instance.DoVibration(lNode, 999, 1);
+                    GorillaTagger.Instance.DoVibration(rNode, 999, 1);
+                }
+                if (buttonsActive[87] == true)
+                {
+                    GorillaLocomotion.Player.Instance.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                }
+                if (buttonsActive[88] == true)
+                {
+                    if (lefttriggerpress)
+                    {
+                        System.Random rando = new System.Random();
+                        if (rando.Next(1, 9) < 5)
+                        {
+                            GorillaTagger.Instance.myVRRig.enabled = false;
+                        }
+                        else
+                        {
+                            GorillaTagger.Instance.myVRRig.enabled = true;
+                        }
+                    }
+                    else
+                    {
+                        GorillaTagger.Instance.myVRRig.enabled = true;
+                    }
+                }
+                if (buttonsActive[89] == true)
+                {
+                    if (lefttriggerpress)
+                    {
+                        drawcube = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        UnityEngine.Object.Destroy(drawcube.GetComponent<SphereCollider>());
+                        UnityEngine.Object.Destroy(drawcube.GetComponent<Rigidbody>());
+                        drawcube.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+                        drawcube.transform.position = GorillaLocomotion.Player.Instance.leftHandTransform.position;
+                        drawcube.transform.localScale = new Vector3(drawsize, drawsize, drawsize);
+                    }
+                }
+                if (buttonsActive[90] == true)
+                {
+                    drawsize += 0.1f;
+                    buttonsActive[90] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
+                }
+                if (buttonsActive[91] == true)
+                {
+<<<<<<< HEAD
                     GorillaTagger.Instance.DoVibration(rNode, 999, 1);
                     GorillaTagger.Instance.DoVibration(lNode, 999, 1);
                 }
@@ -1665,6 +1756,112 @@ internal class MenuPatch
                 {
                     WaterOverlappingCollider waterOverlappingCollider = new WaterOverlappingCollider();
                     waterOverlappingCollider.inWater = true;
+=======
+                    if (drawsize > 0.0)
+                    {
+                        drawsize -= 0.1f;
+                    }
+                    buttonsActive[91] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
+                }
+                if (buttonsActive[92] == true)
+                {
+                    if (lefttriggerpress)
+                    {
+                        for (int j = 1; j > 0; j++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int k = 1; k > 0; k++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int l = 1; l > 0; l++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int m = 1; m > 0; m++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int n = 1; n > 0; n++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int num = 1; num > 0; num++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int num2 = 1; num2 > 0; num2++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int num3 = 1; num3 > 0; num3++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int num4 = 1; num4 > 0; num4++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                        for (int num5 = 1; num5 > 0; num5++)
+                        {
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                            GameObject.Find("Sphere").SetActive(false);
+                        }
+                    }
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
                 }
                 if (btnCooldown > 0 && Time.frameCount > btnCooldown)
                 {
@@ -1738,6 +1935,7 @@ internal class MenuPatch
 
     public static GameObject drawing = null;
 
+<<<<<<< HEAD
     private static bool RaiseEventInternal(byte eventCode, object eventContent, RaiseEventOptions raiseEventOptions, SendOptions sendOptions)
     {
         if (PhotonNetwork.OfflineMode == true)
@@ -1756,13 +1954,23 @@ internal class MenuPatch
 
     public static bool pressed2 = false;
 
+=======
+    public static bool pressed2 = false;
+
+    public static GameObject drawcube;
+
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
     public static bool rightgrippress = false;
 
     public static bool hasbeenenabled = false;
 
     public static bool pressed = false;
 
+<<<<<<< HEAD
     public static float drawsize = 0.1f;
+=======
+    public static float drawsize = 0.5f;
+>>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
 
     public static bool neverused = false;
 
@@ -1787,54 +1995,37 @@ internal class MenuPatch
 
     public static void lagservLUNAR()
     {
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
-        GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
-        PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+        for (int i = 0; i < 2500; i++)
+        {
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            GorillaGameManager.instance.NewVRRig(PhotonNetwork.LocalPlayer, GorillaTagger.Instance.myVRRig.photonView.ViewID, false);
+            PhotonNetwork.Destroy(GorillaTagger.Instance.myVRRig.gameObject);
+            i = 0;
+        }
     }
 
     public static void crashtest()
@@ -2308,6 +2499,12 @@ internal class MenuPatch
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
         list[0].TryGetFeatureValue(CommonUsages.triggerButton, out trig);
         list[0].TryGetFeatureValue(CommonUsages.gripButton, out grip);
+        if (!grip || !trig)
+        {
+            UnityEngine.Object.Destroy(MenuPatch.pointer);
+            MenuPatch.pointer = null;
+            MenuPatch.checkpointTeleportAntiRepeat = false;
+        }
         if (grip)
         {
             RaycastHit raycastHit3;
@@ -2337,26 +2534,44 @@ internal class MenuPatch
                 }
                 if (trig && grip)
                 {
-                    MenuPatch.pointer1.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
-                    foreach (GorillaTagManager gorillaTagManager7 in UnityEngine.Object.FindObjectsOfType<GorillaTagManager>())
+                    if (MenuPatch.checkpointTeleportAntiRepeat == false)
                     {
-                        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                        MenuPatch.pointer1.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
+                        foreach (GorillaTagManager gorillaTagManager7 in UnityEngine.Object.FindObjectsOfType<GorillaTagManager>())
                         {
-                            if (ids[0] == "not used" || ids[0] != owner.UserId)
+                            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
                             {
-                                ids[0] = owner.NickName + " = " + owner.UserId;
-                            }
-                            if (ids[1] == "not used" || ids[1] != owner.UserId)
-                            {
-                                ids[1] = owner.NickName + " = " + owner.UserId;
-                            }
-                            if (ids[2] == "not used" || ids[2] != owner.UserId)
-                            {
-                                ids[2] = owner.NickName + " = " + owner.UserId;
-                            }
-                            if (ids[3] == "not used" || ids[3] != owner.UserId)
-                            {
-                                ids[3] = owner.NickName + " = " + owner.UserId;
+                                if (!zeroused)
+                                {
+                                    ids[0] = owner.NickName + " = " + owner.UserId;
+                                    MenuPatch.checkpointTeleportAntiRepeat = true;
+                                    zeroused = true;
+                                    return;
+                                }
+                                if (!oneused)
+                                {
+                                    ids[1] = owner.NickName + " = " + owner.UserId;
+                                    MenuPatch.checkpointTeleportAntiRepeat = true;
+                                    oneused = true;
+                                    return;
+                                }
+                                if (!twoused)
+                                {
+                                    ids[2] = owner.NickName + " = " + owner.UserId;
+                                    MenuPatch.checkpointTeleportAntiRepeat = true;
+                                    twoused = true;
+                                    return;
+                                }
+                                if (!threeused)
+                                {
+                                    ids[3] = owner.NickName + " = " + owner.UserId;
+                                    MenuPatch.checkpointTeleportAntiRepeat = true;
+                                    threeused = false;
+                                    oneused = false;
+                                    zeroused = false;
+                                    twoused = false;
+                                    return;
+                                }
                             }
                         }
                     }
@@ -2365,7 +2580,7 @@ internal class MenuPatch
         }
     }
 
-    private static void disableafk()
+    public static void disableafk()
     {
         foreach (GorillaKeyboardButton gorillaKeyboardButton in UnityEngine.Object.FindObjectsOfType<GorillaKeyboardButton>())
         {
@@ -2375,6 +2590,14 @@ internal class MenuPatch
 
     // Token: 0x040000B0 RID: 176
     private static float dist;
+
+    public static bool zeroused = false;
+
+    public static bool twoused = false;
+
+    public static bool threeused = false;
+
+    public static bool oneused = false;
 
     public static GameObject pointer1;
 
@@ -2540,6 +2763,14 @@ internal class MenuPatch
         get
         {
             return new Color(0.7f, 0f, 0.9f, 1f);
+        }
+    }
+
+    public static Color black
+    {
+        get
+        {
+            return new Color32(0, 0, 0, 1);
         }
     }
 
@@ -2837,6 +3068,17 @@ internal class MenuPatch
             }
         }
 
+    }
+
+    public static void homemadeesp()
+    {
+        foreach (VRRig vrrig in (VRRig[])UnityEngine.Object.FindObjectsOfType(typeof(VRRig)))
+        {
+            {
+                Material matthingcham = new Material(Shader.Find("GUI/Text Shader"));
+                vrrig.mainSkin.material = matthingcham;
+            }
+        }
     }
 
     private static void triggerplats()
@@ -3500,6 +3742,30 @@ internal class MenuPatch
         gameObject3.transform.localPosition = new Vector3(0.56f, -0.37f, 0.775f - num4);
         gameObject3.AddComponent<BtnCollider>().relatedText = "NextPage";
         gameObject3.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+        num4 = 0.26f;
+        GameObject gameObject2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        UnityEngine.Object.Destroy(gameObject3.GetComponent<Rigidbody>());
+        gameObject2.GetComponent<BoxCollider>().isTrigger = true;
+        gameObject2.transform.parent = menu.transform;
+        gameObject2.transform.rotation = Quaternion.identity;
+        gameObject2.transform.localScale = new Vector3(0.045f, 0.55f, 0.16f);
+        gameObject2.transform.localPosition = new Vector3(0.56f, -0.8f, 0.35f - num4);
+        gameObject2.AddComponent<BtnCollider>().relatedText = "DisconnectingButton";
+        gameObject2.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+        GameObject gameObject4 = new GameObject();
+        gameObject4.transform.parent = canvasObj.transform;
+        Text text2 = gameObject4.AddComponent<Text>();
+        text2.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        text2.text = "Disconnect";
+        text2.fontSize = 1;
+        text2.alignment = TextAnchor.MiddleCenter;
+        text2.resizeTextForBestFit = true;
+        text2.resizeTextMinSize = 0;
+        RectTransform component2 = text2.GetComponent<RectTransform>();
+        component2.localPosition = Vector3.zero;
+        component2.sizeDelta = new Vector2(0.2f, 0.03f);
+        component2.localPosition = new Vector3(0.06f, -0.24f, 0.14f - num4 / 2.55f);
+        component2.rotation = Quaternion.Euler(new Vector3(180f, 90f, 90f));
     }
 
 	public static void Toggle(string relatedText)
@@ -3520,7 +3786,15 @@ internal class MenuPatch
 			Draw();
 			return;
 		}
-		if (relatedText == "PreviousPage")
+        if (relatedText == "DisconnectingButton")
+        {
+            PhotonNetwork.Disconnect();
+        }
+        if (relatedText == "PanicThingy")
+        {
+            turnoffallmods();
+        }
+        if (relatedText == "PreviousPage")
 		{
 			if (pageNumber > 0)
 			{
