@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using static ModMenuPatch.HarmonyPatches.MenuPatch;
 using System.Threading;
+using UnityEngine.UI;
 
 namespace shibagtzgui
 {
@@ -20,7 +21,6 @@ namespace shibagtzgui
     /// </summary>
 
     /* This attribute tells Utilla to look for [ModdedGameJoin] and [ModdedGameLeave] */
-    [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
@@ -31,6 +31,7 @@ namespace shibagtzgui
         bool onn = true;
         bool enable;
         bool crashtestt = false;
+        bool ptt;
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
@@ -44,8 +45,7 @@ namespace shibagtzgui
 
         void Start()
         {
-            /* A lot of Gorilla Tag systems will not be set up when start is called /*
-			/* Put code in OnGameInitialized to avoid null references */
+            
         }
 
         void OnEnable()
@@ -84,7 +84,7 @@ namespace shibagtzgui
                 {
                     PhotonNetwork.Disconnect();
                 }
-                stringthing = GUI.TextArea(new Rect(25, 75, 100, 25), stringthing);
+                stringthing = GUI.TextField(new Rect(25, 75, 100, 25), stringthing);
                 lobbyjoin = GUI.Button(new Rect(25, 105, 100, 25), "Join Lobby");
                 if (lobbyjoin)
                 {

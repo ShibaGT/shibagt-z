@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace ModMenuPatch.HarmonyPatches;
 
-[HarmonyPatch(typeof(Player))]
+[HarmonyPatch(typeof(GorillaLocomotion.Player))]
 [HarmonyPatch("LateUpdate", MethodType.Normal)]
 internal class JumpPatch
 {

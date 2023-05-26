@@ -1181,7 +1181,6 @@ C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Mono
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Mono.Security.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\MonoMod.RuntimeDetour.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\MonoMod.Utils.dll
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Newtonsoft.Json.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Oculus.Platform.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Oculus.VR.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Pathfinding.ClipperLib.dll
@@ -1276,12 +1275,6 @@ C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Unit
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\UnityEngine.XRModule.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Valve.Newtonsoft.Json.dll
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\websocket-sharp.dll
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\0Harmony.xml
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\BepInEx.xml
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\BepInEx.Harmony.xml
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\BepInEx.Preloader.xml
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\MonoMod.RuntimeDetour.xml
-C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\MonoMod.Utils.xml
 C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\obj\Debug\netstandard2.0\shibagt-z.csproj.CopyComplete
 C:\Users\USER\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\ShibaGTZ.deps.json
 C:\Users\USER\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\ShibaGTZ.dll
@@ -1413,3 +1406,4 @@ C:\Users\USER\OneDrive\Documents\GitHub\shibagt-z\obj\Debug\netstandard2.0\shiba
 C:\Users\USER\OneDrive\Documents\GitHub\shibagt-z\obj\Debug\netstandard2.0\shibagt-z.csproj.CopyComplete
 C:\Users\USER\OneDrive\Documents\GitHub\shibagt-z\obj\Debug\netstandard2.0\ShibaGTZ.dll
 C:\Users\USER\OneDrive\Documents\GitHub\shibagt-z\obj\Debug\netstandard2.0\ShibaGTZ.pdb
+C:\Users\shiba\OneDrive\Documents\GitHub\shibagt-z\bin\Debug\netstandard2.0\Unity.TextMeshPro.dll

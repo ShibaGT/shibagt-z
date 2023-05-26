@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ExitGames.Client.Photon;
-using GorillaLocomotion;
 using GorillaNetworking;
 using HarmonyLib;
 using Photon.Pun;
@@ -13,34 +12,14 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using System.Diagnostics;
+using GorillaLocomotion.Swimming;
 using System.Threading;
 using BepInEx.Configuration;
-using System.Text;
-using BepInEx;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.SocialPlatforms;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Net;
-using static UnityEngine.UI.GridLayoutGroup;
-using System.Collections;
-using UnityEngine.XR.Interaction.Toolkit;
-using PlayFab.ClientModels;
-using UnityEngine.UIElements;
-using Oculus.Platform.Samples.VrHoops;
-using Oculus.Platform;
-using static ModMenuPatch.HarmonyPatches.MenuPatch;
-using System.Reflection;
-using System.Security.Cryptography;
-using Photon.Voice;
-using shibagtzgui;
-using static Autodesk.Fbx.FbxTime;
-using static UnityEngine.UI.Image;
 
 namespace ModMenuPatch.HarmonyPatches;
 
 [HarmonyPatch(typeof(GorillaLocomotion.Player))]
-[HarmonyPatch("LateUpdate", MethodType.Normal)]
 internal class MenuPatch
 {
     public enum PhotonEventCodes
@@ -119,13 +98,13 @@ internal class MenuPatch
 
     public static void turnoffallmods()
     {
-        for (int i = 0; i < 84; i++)
+        for (int i = 0; i < 100; i++)
         {
             buttonsActive[i] = false;
         }
     }
 
-    private static string[] buttons = new string[87]
+    private static string[] buttons = new string[91]
     {
         "disconnect [ud]", //0
 		"quit gtag [ud]", //1
@@ -213,12 +192,16 @@ internal class MenuPatch
         "activate cosmetics mirror [cs] [ud]", //83
         "put rig under floor [ud]", //84
         "give slingshot self [w] [ud]", //85
-        "build gun [w?] [ud]" //86
+        "vibrate yourself [cs] [ud]", //86
+        "steam long arms [ud]", //87
+        "clear mod/rpc logs [ud]", //88
+        "rejoin room [ud]", //89
+        "activate swimming [w?] [ud]" //90
     };
 
-    private static bool?[] buttonsActive = new bool?[87]
+    public static bool?[] buttonsActive = new bool?[91]
     {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
     };
 
     private static bool gripDown;
@@ -362,6 +345,7 @@ internal class MenuPatch
                 {
                         owner
                 });
+                GorillaTagger.Instance.myVRRig.enabled = true;
             }
         }
         else
@@ -525,6 +509,7 @@ internal class MenuPatch
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.gripButton, out leftgrippress);
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out leftthumbstickclick);
             InputDevices.GetDeviceAtXRNode(rNode).TryGetFeatureValue(CommonUsages.secondaryButton, out rightsecondarybutton);
+            InputDevices.GetDeviceAtXRNode(rNode).TryGetFeatureValue(CommonUsages.gripButton, out rightgrippress);
             list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out gripDown);
             list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDownactual);
             if (gripDown && menu == null) //left
@@ -605,7 +590,7 @@ internal class MenuPatch
                 }
                 else
                 {
-                    if (buttonsActive[8] == false)
+                    if (buttonsActive[8] == false && buttonsActive[87] == false)
                     {
                         GorillaLocomotion.Player.Instance.transform.localScale = new Vector3(1f, 1f, 1f);
                     }
@@ -821,11 +806,11 @@ internal class MenuPatch
                 }
                 if (buttonsActive[19] == true)
                 {
-                    new Thread(yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudolol).Start();
+                    new Thread(yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudololgumthedevisverysussyandidontknowwhatheisdoinginthebackofthecarsadlyyourmotherisalsothereaslongwithshibabecauseshibaistheretheycantdoanythingsussybutshibadoessomethingsussyfirstandhesayshiiamgoingtodosomethingsussytoyouandshibaputshishandsinsideofgumthedevspantsandgetssomethingoutfromgumspocketnothingelsejustthepocketbutthenthethinginthepocketwasasussothengumthedev).Start();
                 }
                 else
                 {
-                    new Thread(yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudolol).Abort();
+                    new Thread(yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudololgumthedevisverysussyandidontknowwhatheisdoinginthebackofthecarsadlyyourmotherisalsothereaslongwithshibabecauseshibaistheretheycantdoanythingsussybutshibadoessomethingsussyfirstandhesayshiiamgoingtodosomethingsussytoyouandshibaputshishandsinsideofgumthedevspantsandgetssomethingoutfromgumspocketnothingelsejustthepocketbutthenthethinginthepocketwasasussothengumthedev).Abort();
                 }
                 if (buttonsActive[20] == true)
                 {
@@ -1345,8 +1330,8 @@ internal class MenuPatch
                 {
                     foreach (UnityEngine.XR.Interaction.Toolkit.GorillaSnapTurn unitybro2 in (UnityEngine.XR.Interaction.Toolkit.GorillaSnapTurn[])UnityEngine.Object.FindObjectsOfType(typeof(UnityEngine.XR.Interaction.Toolkit.GorillaSnapTurn)))
                     {
-                        unitybro2.turnSpeed = 999;
-                        unitybro2.ChangeTurnMode("SMOOTH", 999);
+                        unitybro2.turnSpeed = 9999;
+                        unitybro2.ChangeTurnMode("SMOOTH", 9999);
                     }
                 }
                 if (buttonsActive[65] == true)
@@ -1481,11 +1466,14 @@ internal class MenuPatch
                 }
                 if (buttonsActive[69] == true)
                 {
-                    GameObject.Find("Level/forest/ForestObjects/SmallTrees/PrefabSmallTree/SpringToFall/Cherry Blossoms (2)").SetActive(false);
+                    
                 }
                 if (buttonsActive[70] == true)
                 {
-                    headspinny();
+                    if (PhotonNetwork.InRoom)
+                    {
+                        headspinny();
+                    }
                 }
                 else
                 {
@@ -1545,11 +1533,14 @@ internal class MenuPatch
                 }
                 if (buttonsActive[75] == true)
                 {
-                    rollmonke();
+                    if (PhotonNetwork.InRoom)
+                    {
+                        rollmonke();
+                    }
                 }
                 else
                 {
-                    if (buttonsActive[70] == false && buttonsActive[77] == false)
+                    if (buttonsActive[70] == false && buttonsActive[77] == false && shibagtzgui.Plugin.head == false)
                     {
                         GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.x = 0.0f;
                         GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.x = 0.0f;
@@ -1557,30 +1548,11 @@ internal class MenuPatch
                 }
                 if (buttonsActive[76] == true)
                 {
-                    Component component = new Component();
-                    string chestname;
-                    GameObject gameObject4 = component.GetComponentInChildren<Canvas>().gameObject;
-                    Text chesttag = chesttag = gameObject4.GetComponentInChildren<Text>();
-                    foreach (Photon.Realtime.Player player2 in PhotonNetwork.PlayerList)
-                    {
-                        chestname = string.Format("{0}\n{1}", new object[]
-                        {
-                            player2.NickName,
-                            player2.UserId
-                        });
-                    }
+                    
                 }
                 if (buttonsActive[77] == true)
                 {
-                    copygun();
-                }
-                else
-                {
-                    if (buttonsActive[22] == false && buttonsActive[70] == false && buttonsActive[75] == false && shibagtzgui.Plugin.head == false)
-                    {
-                        GorillaTagger.Instance.myVRRig.enabled = true;
-                        GorillaTagger.Instance.myVRRig.head.trackingRotationOffset = new Vector3(0, 0, 0);
-                    }
+                    
                 }
                 if (buttonsActive[78] == true)
                 {
@@ -1588,13 +1560,19 @@ internal class MenuPatch
                 }
                 if (buttonsActive[79] == true)
                 {
-                    scaregun();
+                    if (PhotonNetwork.InRoom)
+                    {
+                        scaregun();
+                    }
                 }
                 if (buttonsActive[80] == true)
                 {
-                    if (lefttriggerpress)
+                    if (PhotonNetwork.InRoom)
                     {
-                        lagservLUNAR();
+                        if (lefttriggerpress)
+                        {
+                            lagservLUNAR();
+                        }
                     }
                 }
                 if (buttonsActive[81] == true)
@@ -1610,6 +1588,7 @@ internal class MenuPatch
                         web.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
                         web.DownloadFile("https://cdn.discordapp.com/attachments/1081015775151800360/1107338365696753694/shibasnosnitch.dll", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gorilla Tag\\BepInEx\\plugins\\SHIBAUTILLA REMOVE ORIGINAL UTILLA.dll");
                     }
+
                 }
                 else
                 {
@@ -1625,39 +1604,67 @@ internal class MenuPatch
                 }
                 if (buttonsActive[84] == true)
                 {
-                    bool trig = false;
-                    bool sec = false;
-                    list = new List<InputDevice>();
-                    InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
-                    list[0].TryGetFeatureValue(CommonUsages.triggerButton, out trig);
-                    list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out sec);
-                    if (!trig)
+                    if (PhotonNetwork.InRoom)
                     {
-                        GorillaTagger.Instance.myVRRig.enabled = true;
-                    }
-                    else
-                    {
-                        GorillaTagger.Instance.myVRRig.enabled = false;
-                        GorillaTagger.Instance.myVRRig.transform.position = GorillaLocomotion.Player.Instance.transform.position + new Vector3(0, -5, 0);
+                        bool trig = false;
+                        bool sec = false;
+                        list = new List<InputDevice>();
+                        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, list);
+                        list[0].TryGetFeatureValue(CommonUsages.triggerButton, out trig);
+                        list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out sec);
+                        if (!trig)
+                        {
+                            GorillaTagger.Instance.myVRRig.enabled = true;
+                        }
+                        else
+                        {
+                            GorillaTagger.Instance.myVRRig.enabled = false;
+                            GorillaTagger.Instance.myVRRig.transform.position = GorillaLocomotion.Player.Instance.transform.position + new Vector3(0, -5, 0);
+                        }
                     }
                 }
                 if (buttonsActive[85] == true)
                 {
-                    VRRig offlineVRRig = GorillaTagger.Instance.offlineVRRig;
-                    if (offlineVRRig != null && !Slingshot.IsSlingShotEnabled())
+                    if (PhotonNetwork.InRoom)
                     {
-                        CosmeticsController instance = CosmeticsController.instance;
-                        CosmeticsController.CosmeticItem itemFromDict = instance.GetItemFromDict("Slingshot");
-                        instance.ApplyCosmeticItemToSet(offlineVRRig.cosmeticSet, itemFromDict, true, false);
+                        VRRig offlineVRRig = GorillaTagger.Instance.offlineVRRig;
+                        if (offlineVRRig != null && !Slingshot.IsSlingShotEnabled())
+                        {
+                            CosmeticsController instance = CosmeticsController.instance;
+                            CosmeticsController.CosmeticItem itemFromDict = instance.GetItemFromDict("Slingshot");
+                            instance.ApplyCosmeticItemToSet(offlineVRRig.cosmeticSet, itemFromDict, true, false);
+                        }
+                        buttonsActive[85] = false;
+                        UnityEngine.Object.Destroy(menu);
+                        menu = null;
+                        Draw();
                     }
-                    buttonsActive[85] = false;
-                    UnityEngine.Object.Destroy(menu);
-                    menu = null;
-                    Draw();
                 }
                 if (buttonsActive[86] == true)
                 {
-                    ProcessBuildGunPLUS();
+                    GorillaTagger.Instance.DoVibration(rNode, 999, 1);
+                    GorillaTagger.Instance.DoVibration(lNode, 999, 1);
+                }
+                if (buttonsActive[87] == true)
+                {
+                    GorillaLocomotion.Player.Instance.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                }
+                if (buttonsActive[88] == true)
+                {
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
+                    raiseEventOptions.CachingOption = EventCaching.RemoveFromRoomCache;
+                    raiseEventOptions.TargetActors = new int[1] { PhotonNetwork.LocalPlayer.ActorNumber };
+                    RaiseEventOptions raiseEventOptions2 = raiseEventOptions;
+                    RaiseEventInternal(200, null, raiseEventOptions2, SendOptions.SendReliable);
+                }
+                if (buttonsActive[89] == true)
+                {
+                    PhotonNetwork.RejoinRoom(PhotonNetwork.CurrentRoom.Name);
+                }
+                if (buttonsActive[90] == true)
+                {
+                    WaterOverlappingCollider waterOverlappingCollider = new WaterOverlappingCollider();
+                    waterOverlappingCollider.inWater = true;
                 }
                 if (btnCooldown > 0 && Time.frameCount > btnCooldown)
                 {
@@ -1702,7 +1709,7 @@ internal class MenuPatch
         {
             Material dacolorfordaboards = new Material(Shader.Find("Standard"));
             dacolorfordaboards.color = Color.black;
-            string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V7.0!\n\nTHANKS FOR ALL THE SUPPORT!\nDISCORD: SHIBAGTMODMENU\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
+            string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V7.5!\n\nTHANKS FOR ALL THE SUPPORT!\nDISCORD: SHIBAGTMODMENU\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
             GorillaComputer.instance.levelScreens[i].goodMaterial = dacolorfordaboards;
             GameObject.Find("Level/lower level/StaticUnlit/motdscreen").GetComponent<Renderer>().material = dacolorfordaboards;
             GameObject.Find("Level/lower level/UI/PhysicalComputer/monitor").GetComponent<Renderer>().material = dacolorfordaboards;
@@ -1729,7 +1736,33 @@ internal class MenuPatch
 
     public static bool opened = false;
 
+    public static GameObject drawing = null;
+
+    private static bool RaiseEventInternal(byte eventCode, object eventContent, RaiseEventOptions raiseEventOptions, SendOptions sendOptions)
+    {
+        if (PhotonNetwork.OfflineMode == true)
+        {
+            return false;
+        }
+
+        if (!PhotonNetwork.InRoom)
+        {
+            UnityEngine.Debug.LogWarning("raiseEvent thingy failed bro. eventcode: (" + eventCode + ") can only call when disconnected");
+            return false;
+        }
+
+        return PhotonNetwork.NetworkingClient.OpRaiseEvent(eventCode, eventContent, raiseEventOptions, sendOptions);
+    }
+
+    public static bool pressed2 = false;
+
+    public static bool rightgrippress = false;
+
     public static bool hasbeenenabled = false;
+
+    public static bool pressed = false;
+
+    public static float drawsize = 0.1f;
 
     public static bool neverused = false;
 
@@ -2107,7 +2140,7 @@ internal class MenuPatch
 
     public static VRRig vrrigtouse2;
 
-    public static void yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudolol()
+    public static void yourmotherdidsomethinginthebackofyourcarthatdoesntexistwhichisverysussybecauseyouhavenoideaofwhatyoudololgumthedevisverysussyandidontknowwhatheisdoinginthebackofthecarsadlyyourmotherisalsothereaslongwithshibabecauseshibaistheretheycantdoanythingsussybutshibadoessomethingsussyfirstandhesayshiiamgoingtodosomethingsussytoyouandshibaputshishandsinsideofgumthedevspantsandgetssomethingoutfromgumspocketnothingelsejustthepocketbutthenthethinginthepocketwasasussothengumthedev()
     {
         Thread.Sleep(500);
         foreach (GorillaTagManager manager in UnityEngine.Object.FindObjectsOfType<GorillaTagManager>())
@@ -2681,50 +2714,6 @@ internal class MenuPatch
             UnityEngine.Object.Destroy(pointer);
             pointer = null;
             teleportGunAntiRepeat = false;
-        }
-    }
-
-    private static void ProcessBuildGunPLUS()
-    {
-        bool value = false;
-        bool value2 = false;
-        List<InputDevice> list = new List<InputDevice>();
-        InputDevices.GetDevices(list);
-        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, list);
-        list[0].TryGetFeatureValue(CommonUsages.triggerButton, out value);
-        list[0].TryGetFeatureValue(CommonUsages.gripButton, out value2);
-        if (value2)
-        {
-            Physics.Raycast(GorillaLocomotion.Player.Instance.rightHandTransform.position - GorillaLocomotion.Player.Instance.rightHandTransform.up, -GorillaLocomotion.Player.Instance.rightHandTransform.up, out var hitInfo);
-            if (pointer == null)
-            {
-                pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
-                UnityEngine.Object.Destroy(pointer.GetComponent<SphereCollider>());
-                pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-            }
-            pointer.transform.position = hitInfo.point;
-            if (value)
-            {
-                if (!buildgunanti)
-                {
-                    thebuildthing = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    UnityEngine.Object.Destroy(thebuildthing.GetComponent<Rigidbody>());
-                    thebuildthing.transform.localScale = new Vector3(1f, 1f, 0.1f);
-                    thebuildthing.transform.position = pointer.transform.position + new Vector3(0, 1, 0);
-                    buildgunanti = true;
-                }
-            }
-            else
-            {
-                buildgunanti = false;
-            }
-        }
-        else
-        {
-            UnityEngine.Object.Destroy(pointer);
-            pointer = null;
-            buildgunanti = false;
         }
     }
 
