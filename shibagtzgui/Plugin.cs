@@ -13,14 +13,10 @@ using UnityEngine.XR;
 using static ModMenuPatch.HarmonyPatches.MenuPatch;
 using System.Threading;
 using UnityEngine.UI;
+using ExitGames.Client.Photon.StructWrapping;
 
 namespace shibagtzgui
 {
-    /// <summary>
-    /// This is your mod's main class.
-    /// </summary>
-
-    /* This attribute tells Utilla to look for [ModdedGameJoin] and [ModdedGameLeave] */
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
@@ -30,18 +26,13 @@ namespace shibagtzgui
         bool panic;
         bool onn = true;
         bool enable;
-        bool crashtestt = false;
-        bool ptt;
-<<<<<<< HEAD
-=======
         bool afk = false;
->>>>>>> 688dee5e4fec306cca57bff5d14168bb391e6fe3
         bool Bubble;
         public static bool head;
         bool lobbyjoin;
-        bool rigunder = false;
         bool crashall = false;
         bool tagall;
+        bool loadstump = false;
         public static bool fpc = false;
         bool trapall;
         bool aura = false;
@@ -140,19 +131,7 @@ namespace shibagtzgui
                 Bubble = GUI.Toggle(new Rect(25, 285, 100, 25), Bubble, "bubble pop spam");
                 if (Bubble)
                 {
-                    foreach (Photon.Realtime.Player player2 in PhotonNetwork.PlayerList)
-                    {
-                        PhotonView photonView = GorillaGameManager.instance.FindVRRigForPlayer(player2);
-                        if (photonView != null)
-                        {
-                            photonView.RPC("PlayHandTap", RpcTarget.All, new object[]
-                            {
-                                    84,
-                                    false,
-                                    100f
-                            });
-                        }
-                    }
+                    PlaySoundInteger(84);
                 }
                 enable = GUI.Toggle(new Rect(125, 45, 100, 25), enable, "wasd[C: KMAN]");
                 if (enable)
@@ -297,6 +276,7 @@ namespace shibagtzgui
 
         void Update()
         {
+            
             if (UnityInput.Current.GetKey(KeyCode.F2))
             {
                 onn = !onn;

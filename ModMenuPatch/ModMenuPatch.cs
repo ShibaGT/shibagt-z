@@ -8,7 +8,6 @@ namespace ModMenuPatch;
 
 [Description("HauntedModMenu")]
 [BepInPlugin("org.shibagt.menu.shibagtz", "ShibaGTModMenu-Z", "1.0.0")]
-[BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
 public class ModMenuPatch : BaseUnityPlugin
 {
 	public static bool modmenupatch = true;
