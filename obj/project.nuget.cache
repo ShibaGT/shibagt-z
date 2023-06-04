@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Qzg5PLWlUOvHBIkXg3q+YpTdmQrWudmwBAOSsjWpIIPQTYg/iTjpv9h5HNhEDBcKiYGBC9t05lFg7k6N+QoZ2g==",
+  "dgSpecHash": "m78XrOHUZtekwiurVlGxaBIqWR4fM/CGJ0YrtzPwapGACtcteJNY/ZnacI8BY/yOW/XF15JopBS6/J9L1C6GGA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\shiba\\OneDrive\\Documents\\GitHub\\shibagt-z\\shibagt-z.csproj",
+  "projectFilePath": "C:\\Users\\USER\\Downloads\\shibagt-z (3)\\shibagt-z\\shibagt-z.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\shiba\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\shiba\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\USER\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }

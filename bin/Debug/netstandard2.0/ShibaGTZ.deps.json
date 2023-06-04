@@ -31,7 +31,6 @@
           "Mono.Security": "4.0.0.0",
           "MonoMod.RuntimeDetour": "22.1.29.1",
           "MonoMod.Utils": "22.1.29.1",
-          "Newtonsoft.Json": "12.0.0.0",
           "Oculus.Platform": "0.0.0.0",
           "Oculus.VR": "0.0.0.0",
           "Pathfinding.ClipperLib": "1.0.0.0",
@@ -297,14 +296,6 @@
           "MonoMod.Utils.dll": {
             "assemblyVersion": "22.1.29.1",
             "fileVersion": "22.1.29.1"
-          }
-        }
-      },
-      "Newtonsoft.Json/12.0.0.0": {
-        "runtime": {
-          "Newtonsoft.Json.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.3.23909"
           }
         }
       },
@@ -1183,11 +1174,6 @@
       "sha512": ""
     },
     "MonoMod.Utils/22.1.29.1": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Newtonsoft.Json/12.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

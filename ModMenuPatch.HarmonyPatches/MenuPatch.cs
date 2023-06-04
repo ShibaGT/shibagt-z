@@ -33,6 +33,8 @@ using static UnityEngine.UI.Image;
 using GorillaLocomotion.Gameplay;
 using Mono.Cecil.Cil;
 using Steamworks;
+using GorillaLocomotion;
+using UnityEngine.Animations.Rigging;
 
 namespace ModMenuPatch.HarmonyPatches;
 
@@ -156,7 +158,7 @@ internal class MenuPatch
 		"first person camera [ud]", //29
 		"trigger speed boost / mosa [nw]", //30
         "esp [ud]", //31
-        "fling rope [outspect] [cs] [t] [ud]", //32
+        "removed due to detected", //32
         "unreleased sweater [cs] [ud]", //33
         "plank platforms [ud]", //34
         "tag all [ud] [aspect]", //35
@@ -217,11 +219,12 @@ internal class MenuPatch
         "make drawing bigger [ud]", //90
         "make drawing smaller [ud]", //91
         "destroy all drawings [t] [ud]", //92
-        "swim anywhere [ud]", //93
-        "walk on water [ud]", //94
-        "disable water [ud]", //95
-        "steal bug [press grip when bug on hand]", //96
-        "set master [ud]" //97
+        "swim anywhere [cs] [ud]", //93
+        "walk on water [cs] [ud]", //94
+        "disable water [cs] [ud]", //95
+        "fix water [cs] [ud]", //96
+        "ride edwardo [t] [ud]", //97
+        "tp to player gun [d?]" //98
     };
 
     public static bool?[] buttonsActive = new bool?[]
@@ -393,6 +396,38 @@ internal class MenuPatch
         }
     }
 
+    private static void playergun()
+    {
+        bool trig = false;
+        bool grip = false;
+        List<InputDevice> list = new List<InputDevice>();
+        InputDevices.GetDevices(list);
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right, list);
+        list[0].TryGetFeatureValue(CommonUsages.triggerButton, out trig);
+        list[0].TryGetFeatureValue(CommonUsages.gripButton, out grip);
+        if (grip)
+        {
+            RaycastHit raycastHit;
+            if (Physics.Raycast(GorillaLocomotion.Player.Instance.rightHandTransform.position - GorillaLocomotion.Player.Instance.rightHandTransform.up, -GorillaLocomotion.Player.Instance.rightHandTransform.up, out raycastHit) && MenuPatch.pointer == null)
+            {
+                MenuPatch.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                UnityEngine.Object.Destroy(MenuPatch.pointer.GetComponent<Rigidbody>());
+                UnityEngine.Object.Destroy(MenuPatch.pointer.GetComponent<SphereCollider>());
+                MenuPatch.pointer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            }
+            MenuPatch.pointer.transform.position = raycastHit.point;
+            Photon.Realtime.Player owner = raycastHit.collider.GetComponentInParent<PhotonView>().Owner;
+            if (trig)
+            {
+                GorillaLocomotion.Player.Instance.transform.position = FindVRRigForPlayer(owner).transform.position;
+            }
+        }
+        else
+        {
+            GorillaTagger.Instance.myVRRig.enabled = true;
+            GameObject.Destroy(pointer);
+        }
+    }
 
     private static void scaregun()
     {
@@ -507,6 +542,8 @@ internal class MenuPatch
 
     public static bool leftsecondarybutton = false;
 
+    public static bool righttriggerpress = false;
+
     public static bool leftgrippress = false;
 
     public static bool leftprimarypress = false;
@@ -519,7 +556,7 @@ internal class MenuPatch
 
     public static bool didthethingwebhook = false;
 
-    public static string currentverison = "8.0";
+    public static string currentverison = "8.5";
 
     public static bool lefttriggerpress = false;
 
@@ -553,6 +590,7 @@ internal class MenuPatch
             InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out leftthumbstickclick);
             InputDevices.GetDeviceAtXRNode(rNode).TryGetFeatureValue(CommonUsages.secondaryButton, out rightsecondarybutton);
             InputDevices.GetDeviceAtXRNode(rNode).TryGetFeatureValue(CommonUsages.gripButton, out rightgrippress);
+            InputDevices.GetDeviceAtXRNode(rNode).TryGetFeatureValue(CommonUsages.triggerButton, out righttriggerpress);
             list[0].TryGetFeatureValue(CommonUsages.secondaryButton, out gripDown);
             list[0].TryGetFeatureValue(CommonUsages.gripButton, out gripDownactual);
             if (gripDown && menu == null) //left
@@ -1028,19 +1066,8 @@ internal class MenuPatch
                 }
                 if (buttonsActive[32] == true)
                 {
-                    if (lefttriggerpress)
-                    {
-                        System.Random rand = new System.Random();
-                        GorillaRopeSwing[] ropeswing = UnityEngine.Object.FindObjectsOfType<GorillaRopeSwing>();
-                        for (int i = 0; i < ropeswing.Length; i++)
-                        {
-                            ropeswing[i].SetVelocity_RPC(
-                                1,
-                                new Vector3(rand.Next(190, 999), rand.Next(200, 999), rand.Next(150, 999)),
-                                true
-                            );
-                        }
-                    } }
+
+                }
                 if (buttonsActive[33] == true)
                 {
                     GameObject.Find("Global/Local VRRig/Local Gorilla Player/rig/body/WinterJan2023 Body/LBACP.").SetActive(true);
@@ -1525,10 +1552,6 @@ internal class MenuPatch
                         {
                             GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.y = GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.y = 0f;
                         }
-                        else
-                        {
-                            GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.y = GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.y = 0f;
-                        }
                     }
                 }
                 if (buttonsActive[71] == true)
@@ -1588,10 +1611,6 @@ internal class MenuPatch
                         {
                             GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.x = 0.0f;
                         }
-                        else
-                        {
-                            GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.x = 0.0f;
-                        }
                     }
                 }
                 if (buttonsActive[76] == true)
@@ -1605,6 +1624,7 @@ internal class MenuPatch
                 if (buttonsActive[78] == true)
                 {
                     ProcessCheckPoint();
+                    ProcessNoClip();
                 }
                 if (buttonsActive[79] == true)
                 {
@@ -1880,59 +1900,93 @@ internal class MenuPatch
                 }
                 if (buttonsActive[94] == true)
                 {
-                    GameObject beached = GameObject.Find("Level/beach");
-                    if (beached != null)
+                    if (!checkedwater)
                     {
-                        beachmap = true;
-                        int defaul2 = LayerMask.NameToLayer("Default");
-                        GameObject.Find("OceanWater").layer = defaul2;
+                        GameObject water = GameObject.Find("OceanWater");
+                        if (water != null)
+                        {
+                            waterexists = true;
+                            int defaul2 = LayerMask.NameToLayer("Default");
+                            GameObject.Find("OceanWater").layer = defaul2;
+                        }
+                        else
+                        {
+                            waterexists = false;
+                        }
+                        checkedwater = true;
                     }
+                    buttonsActive[94] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
                 }
                 else
                 {
-                    GameObject beached = GameObject.Find("Level/beach");
-                    if (beached != null)
-                    {
-                        beachmap = true;
-                        if (buttonsActive[95] == false)
-                        {
-                            int defaul3 = LayerMask.NameToLayer("Water");
-                            GameObject.Find("OceanWater").layer = defaul3;
-                        }
-                    }
+                    checkedwater = false;
                 }
                 if (buttonsActive[95] == true)
                 {
-                    GameObject beached = GameObject.Find("Level/beach");
-                    if (beached != null)
+                    if (!checkedwater2)
                     {
-                        beachmap = true;
-                        int defaul2 = LayerMask.NameToLayer("TransparentFX");
-                        GameObject.Find("OceanWater").layer = defaul2;
+                        GameObject water = GameObject.Find("OceanWater");
+                        if (water != null)
+                        {
+                            waterexists2 = true;
+                            int defaul2 = LayerMask.NameToLayer("TransparentFX");
+                            GameObject.Find("OceanWater").layer = defaul2;
+                        }
+                        else
+                        {
+                            waterexists2 = false;
+                        }
+                        checkedwater2 = true;
                     }
+                    buttonsActive[95] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
+                }
+                else
+                {
+                    checkedwater = false;
                 }
                 if (buttonsActive[96] == true)
                 {
-                    GameObject.Find("Floating Bug Holdable").transform.position = GorillaLocomotion.Player.Instance.leftHandTransform.position;
+                    if (!checkedwater3)
+                    {
+                        GameObject water = GameObject.Find("OceanWater");
+                        if (water != null)
+                        {
+                            waterexists3 = true;
+                            int defaul2 = LayerMask.NameToLayer("Water");
+                            GameObject.Find("OceanWater").layer = defaul2;
+                        }
+                        else
+                        {
+                            waterexists3 = false;
+                        }
+                        checkedwater3 = true;
+                    }
+                    buttonsActive[96] = false;
+                    UnityEngine.Object.Destroy(menu);
+                    menu = null;
+                    Draw();
+                }
+                else
+                {
+                    checkedwater = false;
                 }
                 if (buttonsActive[97] == true)
                 {
-                    ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable
-                {
+                    if (righttriggerpress)
                     {
-                        248,
-                        PhotonNetwork.LocalPlayer.UserId
-                    },
-                    {
-                        248,
-                        PhotonNetwork.LocalPlayer.NickName
-                    },
-                    {
-                        248,
-                        PhotonNetwork.NetworkingClient.CurrentRoom.masterClientId = PhotonNetwork.LocalPlayer.ActorNumber
+                        GorillaLocomotion.Player.Instance.transform.position = GameObject.Find("Floating Bug Holdable").transform.position + new Vector3(0, 1, 0);
                     }
-                };
-                    PhotonNetwork.SetPlayerCustomProperties(hashtable);
+                    ProcessNoClip();
+                }
+                if (buttonsActive[98] == true)
+                {
+                    playergun();
                 }
                 if (btnCooldown > 0 && Time.frameCount > btnCooldown)
                 {
@@ -1978,7 +2032,21 @@ internal class MenuPatch
 
     public static bool opened = false;
 
-    public static GameObject[] selectorArr;
+    public static Material edwardo;
+
+    public static bool dooncepls = true;
+
+    public static bool waterexists3;
+
+    public static bool waterexists2;
+
+    public static bool waterexists;
+
+    public static bool checkedwater = false;
+
+    public static bool checkedwater2 = false;
+
+    public static bool checkedwater3 = false;
 
     public static bool notdone = false;
 
@@ -1986,15 +2054,11 @@ internal class MenuPatch
 
     public static bool checkedmap = false;
 
+    public static bool enabledwatermod = false;
+
     public static bool forestmap;
 
     public static bool madethething = false;
-
-    public static bool beachmap;
-
-    public static bool citymap;
-
-    public static bool cavemap;
 
     public static GameObject drawing = null;
 
@@ -2490,14 +2554,9 @@ internal class MenuPatch
 
     public static void headspinny()
     {
-        if (PhotonNetwork.InRoom)
-        {
+       
             GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.y += 15f;
-        }
-        else
-        {
-            GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.y = 0.0f;
-        }
+        
     }
 
     public static void rollmonke()
@@ -2506,11 +2565,6 @@ internal class MenuPatch
         {
             GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.x += 15f;
             GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.x += 15f;
-        }
-        else
-        {
-            GorillaTagger.Instance.myVRRig.head.trackingRotationOffset.x = 0.0f;
-            GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.x = 0.0f;
         }
     }
 
@@ -3312,9 +3366,22 @@ internal class MenuPatch
     {
         foreach (VRRig vrrig in (VRRig[])UnityEngine.Object.FindObjectsOfType(typeof(VRRig)))
         {
+            foreach (GorillaTagManager manager in UnityEngine.Object.FindObjectsOfType<GorillaTagManager>())
+            {
+                if (!manager.currentInfected.Contains(vrrig.photonView.Controller))
+                {
+                    Material matthingcham = new Material(Shader.Find("GUI/Text Shader"));
+                    vrrig.mainSkin.material = matthingcham;
+                    vrrig.mainSkin.material.color = Color.green;
+                }
+                if (manager.currentInfected.Contains(vrrig.photonView.Controller))
+                {
+                    Material matthingcham = new Material(Shader.Find("GUI/Text Shader"));
+                    vrrig.mainSkin.material = matthingcham;
+                    vrrig.mainSkin.material.color = Color.red;
+                }
 
-                Material matthingcham = new Material(Shader.Find("GUI/Text Shader"));
-                vrrig.mainSkin.material = matthingcham;
+            }
         }
     }
 
@@ -3793,6 +3860,8 @@ internal class MenuPatch
 
     public static string custommessage;
 
+    public static bool getedwardo = false;
+
     public static void Draw()
     {
         if (checkver == false)
@@ -3806,7 +3875,7 @@ internal class MenuPatch
             {
                 Material dacolorfordaboards = new Material(Shader.Find("Standard"));
                 dacolorfordaboards.color = Color.black;
-                string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V8.0!\n\nTHANKS FOR ALL THE SUPPORT!\n\nDISCORD: SHIBAGTMODMENU\n\nTHANKS TO ALL MY BETA TESTERS!\n\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
+                string announcement = "THANKS FOR USING THE SHIBAGT-Z MENU V8.5!\n\nTHANKS FOR ALL THE SUPPORT!\n\nDISCORD: SHIBAGTMODMENU\n\nTHANKS TO ALL MY BETA TESTERS!\n\nDONT BAN YOURSELF PLS, AND ALSO REVIEW ON YOUTUBE :D";
                 GorillaComputer.instance.levelScreens[i].goodMaterial = dacolorfordaboards;
                 if (GameObject.Find("Level/lower level").activeSelf)
                 {
@@ -3865,7 +3934,7 @@ internal class MenuPatch
         Text text = gameObject2.AddComponent<Text>();
         text.font = (Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font);
         text.fontStyle = FontStyle.Bold;
-        text.text = "ShibaGTs Mod Menu-Z v8.0";
+        text.text = "ShibaGTs Mod Menu-Z v8.5";
         text.fontSize = 1;
         text.color = Color.white;
         text.alignment = TextAnchor.MiddleCenter;
