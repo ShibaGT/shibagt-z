@@ -3,3 +3,5 @@
 
 shibagt-z source :D
 download in discord: https://discord.gg/shibagtmodmenu
+
+all rights reserved.
