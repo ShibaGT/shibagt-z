@@ -10,7 +10,7 @@ using System.Net;
 using System.IO;
 using UnityEngine;
 using UnityEngine.XR;
-using static ModMenuPatch.HarmonyPatches.MenuPatch;
+using static ModMenuPatch.HarmonyPatches.theactualmenu;
 using System.Threading;
 using UnityEngine.UI;
 using ExitGames.Client.Photon.StructWrapping;
@@ -126,12 +126,16 @@ namespace shibagtzgui
                 trapall = GUI.Toggle(new Rect(25, 255, 100, 25), trapall, "trap all modders");
                 if (trapall)
                 {
-                    MenuPatch.trapallmodders();
+                    theactualmenu.trapallmodders();
                 }
-                Bubble = GUI.Toggle(new Rect(25, 285, 100, 25), Bubble, "bubble pop spam");
+                Bubble = GUI.Toggle(new Rect(25, 285, 100, 25), Bubble, "right hand menu");
                 if (Bubble)
                 {
-                    PlaySoundInteger(84);
+                    theactualmenu.righthand = true;
+                }
+                else
+                {
+                    theactualmenu.righthand = false;
                 }
                 enable = GUI.Toggle(new Rect(125, 45, 100, 25), enable, "wasd[C: KMAN]");
                 if (enable)
@@ -161,7 +165,7 @@ namespace shibagtzgui
                 aura = GUI.Toggle(new Rect(125, 135, 100, 25), aura, "tag aura");
                 if (aura)
                 {
-                    MenuPatch.ProcessTagAura();
+                    theactualmenu.ProcessTagAura();
                 }
                 esp = GUI.Toggle(new Rect(125, 165, 100, 25), esp, "esp");
                 if (esp)
@@ -247,14 +251,14 @@ namespace shibagtzgui
 
         public static void TagAll()
         {
-            if (MenuPatch.btnCooldown == 0)
+            if (theactualmenu.btnCooldown == 0)
             {
                 foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
                 {
-                    if (!MenuPatch.FindVRRigForPlayer(player).mainSkin.material.name.Contains("fected") && GorillaTagger.Instance.myVRRig.mainSkin.material.name.Contains("fected"))
+                    if (!theactualmenu.FindVRRigForPlayer(player).mainSkin.material.name.Contains("fected") && GorillaTagger.Instance.myVRRig.mainSkin.material.name.Contains("fected"))
                     {
                         GorillaTagger.Instance.myVRRig.enabled = false;
-                        GorillaTagger.Instance.myVRRig.transform.position = MenuPatch.FindVRRigForPlayer(player).transform.position;
+                        GorillaTagger.Instance.myVRRig.transform.position = theactualmenu.FindVRRigForPlayer(player).transform.position;
                         PhotonView.Get(GorillaGameManager.instance.GetComponent<GorillaGameManager>()).RPC("ReportTagRPC", RpcTarget.MasterClient, new object[]
                         {
                             player
@@ -276,11 +280,45 @@ namespace shibagtzgui
 
         void Update()
         {
-            
             if (UnityInput.Current.GetKey(KeyCode.F2))
             {
                 onn = !onn;
                 Thread.Sleep(250);
+            }
+            if (theactualmenu.swimeverywhere)
+            {
+                if (!theactualmenu.checkedmap)
+                {
+                    GameObject forests = GameObject.Find("Level/forest");
+                    if (forests != null)
+                    {
+                        theactualmenu.forestmap = true;
+                    }
+                    else
+                    {
+                        theactualmenu.forestmap = false;
+                    }
+                    theactualmenu.checkedmap = true;
+                }
+                if (!theactualmenu.loadedassets)
+                {
+                    theactualmenu.treeroom = GameObject.Find("Level/treeroom");
+                    theactualmenu.lowerlevel = GameObject.Find("Level/lower level");
+                    theactualmenu.loadedassets = true;
+                }
+                GameObject.Find("EnteringBeachGeo").GetComponent<GorillaGeoHideShowTrigger>().OnBoxTriggered();
+                if (theactualmenu.forestmap)
+                {
+                    GameObject.Find("LeavingCaveGeo").GetComponent<GorillaGeoHideShowTrigger>().OnBoxTriggered();
+                }
+                GameObject.Find("OceanWater").transform.localScale = new Vector3(999, 400, 999);
+            }
+            else
+            {
+                GameObject.Find("OceanWater").transform.localScale = new Vector3(85.0041f, 20f, 135.114f);
+                theactualmenu.treeroom.SetActive(true);
+                theactualmenu.lowerlevel.SetActive(true);
+                theactualmenu.checkedmap = false;
             }
         }
     }

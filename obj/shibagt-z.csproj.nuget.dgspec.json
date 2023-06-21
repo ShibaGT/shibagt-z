@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shiba\\OneDrive\\Documents\\GitHub\\shibagt-z\\shibagt-z.csproj": {}
+    "C:\\Users\\shiba\\Downloads\\shibagt-z-main (4)\\shibagt-z-main\\shibagt-z.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shiba\\OneDrive\\Documents\\GitHub\\shibagt-z\\shibagt-z.csproj": {
+    "C:\\Users\\shiba\\Downloads\\shibagt-z-main (4)\\shibagt-z-main\\shibagt-z.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shiba\\OneDrive\\Documents\\GitHub\\shibagt-z\\shibagt-z.csproj",
+        "projectUniqueName": "C:\\Users\\shiba\\Downloads\\shibagt-z-main (4)\\shibagt-z-main\\shibagt-z.csproj",
         "projectName": "ShibaGTZ",
-        "projectPath": "C:\\Users\\shiba\\OneDrive\\Documents\\GitHub\\shibagt-z\\shibagt-z.csproj",
+        "projectPath": "C:\\Users\\shiba\\Downloads\\shibagt-z-main (4)\\shibagt-z-main\\shibagt-z.csproj",
         "packagesPath": "C:\\Users\\shiba\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shiba\\OneDrive\\Documents\\GitHub\\shibagt-z\\obj\\",
+        "outputPath": "C:\\Users\\shiba\\Downloads\\shibagt-z-main (4)\\shibagt-z-main\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\shiba\\AppData\\Roaming\\NuGet\\NuGet.Config",
